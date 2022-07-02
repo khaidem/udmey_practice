@@ -1,1 +1,4 @@
-
+enum Filter {
+  onlyFavorite,
+  favorite,
+}

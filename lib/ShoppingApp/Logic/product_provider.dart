@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../models/product.model.dart';
+import 'product.model.dart';
 
 class ProductsProvider with ChangeNotifier {
   final List<ProductModel> _items = [
@@ -11,7 +11,7 @@ class ProductsProvider with ChangeNotifier {
       price: 29.99,
       imageUrl:
           'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg',
-      isFavorite: null,
+      // isFavorite: null,
     ),
     ProductModel(
       id: 'p2',
@@ -20,7 +20,7 @@ class ProductsProvider with ChangeNotifier {
       price: 59.99,
       imageUrl:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Trousers%2C_dress_%28AM_1960.022-8%29.jpg/512px-Trousers%2C_dress_%28AM_1960.022-8%29.jpg',
-      isFavorite: null,
+      // isFavorite: null,
     ),
     ProductModel(
       id: 'p3',
@@ -29,7 +29,7 @@ class ProductsProvider with ChangeNotifier {
       price: 19.99,
       imageUrl:
           'https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg',
-      isFavorite: null,
+      // isFavorite: null,
     ),
     ProductModel(
       id: 'p4',
@@ -38,15 +38,37 @@ class ProductsProvider with ChangeNotifier {
       price: 49.99,
       imageUrl:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
-      isFavorite: null,
+      // isFavorite: null,
     ),
   ];
 
+  //** use getter -- Is a list of product of single product items */
+
+  // var showFavoriteOnly = false;
+
   List<ProductModel> get items {
+    // if (showFavoriteOnly) {
+    //   return _items.where((element) => element.isFavorite).toList();
+    // }
     return [..._items];
   }
 
+//* For using only single widget filter
+  // void showFavoriteonly() {
+  //   showFavoriteOnly = true;
+  //   notifyListeners();
+  // }
+
+  // void showAll() {
+  //   showFavoriteOnly = false;
+  //   notifyListeners();
+  // }
+
   ProductModel findId(String id) {
     return _items.firstWhere((element) => element.id == id);
+  }
+
+  List<ProductModel> get favoriteItem {
+    return _items.where((proItem) => proItem.isFavorite).toList();
   }
 }

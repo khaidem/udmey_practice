@@ -1,1 +1,1 @@
-export './product.model.dart';
+export '../Logic/product.model.dart';
