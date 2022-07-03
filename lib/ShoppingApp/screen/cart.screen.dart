@@ -30,7 +30,7 @@ class CartScreen extends StatelessWidget {
                   const Spacer(),
                   Chip(
                     label: Text(
-                      '\$ ${r.totalAmount}',
+                      '\$ ${r.totalAmount.toStringAsFixed(2)}',
                       style: TextStyle(
                           color: Theme.of(context)
                               .primaryTextTheme
@@ -72,7 +72,7 @@ class CartScreen extends StatelessWidget {
               price: r.items.values.toList()[i].price.toString(),
               quantity: r.items.values.toList()[i].quantity,
               title: r.items.values.toList()[i].title,
-              productId: r.items.values.toList()[i].toString(),
+              productId: r.items.values.toList()[i].toString(), index: i,
             ),
             itemCount: r.items.length,
           ))

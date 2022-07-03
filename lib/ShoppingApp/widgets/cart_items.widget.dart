@@ -3,24 +3,29 @@ import 'package:practice_app/ShoppingApp/Logic/cart.provider.dart';
 import 'package:provider/provider.dart';
 
 class CartItemsWidget extends StatelessWidget {
-  const CartItemsWidget(
-      {Key? key,
-      required this.id,
-      required this.price,
-      required this.quantity,
-      required this.title,
-      required this.productId})
-      : super(key: key);
+  const CartItemsWidget({
+    Key? key,
+    required this.id,
+    required this.price,
+    required this.quantity,
+    required this.title,
+    required this.productId,
+    required this.index,
+  }) : super(key: key);
   final String id;
   final String price;
   final int quantity;
   final String title;
   final String productId;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
+    //**Make sure the values you're passing to the key parameters are unique as well. And DO NOT use the index of an item. Since after removing an item from an array, the array will shift the positions
+    //** of the items, the Dismissable widget will not recognize the removal of an
+    //** */ item. */
     return Dismissible(
-      key: ValueKey(id),
+      key: Key(index.toString()),
       background: Container(
         color: Theme.of(context).errorColor,
         child: const Icon(
