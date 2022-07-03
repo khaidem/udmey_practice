@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:practice_app/ShoppingApp/Logic/cart.provider.dart';
 import 'package:practice_app/ShoppingApp/screen/badge.screen.dart';
 import 'package:practice_app/ShoppingApp/screen/cart.screen.dart';
+import 'package:practice_app/ShoppingApp/widgets/drawer.widget.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/widgets.dart';
@@ -76,6 +77,7 @@ class _ProductScreenState extends State<ProductScreen> {
           )
         ],
       ),
+      drawer: const DrawerWidget(),
       body: ProductGridWidget(
         showFavorite: _showOnlyFavorite,
       ),

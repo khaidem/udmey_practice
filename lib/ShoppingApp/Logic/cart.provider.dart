@@ -15,7 +15,7 @@ class CartItem {
 }
 
 class CartProvider with ChangeNotifier {
-  final Map<String, CartItem>? _items = {};
+  Map<String, CartItem>? _items = {};
 //** we use Spread opreator because here on Items to pull  out the key-value pairs
 //** form this items map and  add it to  a new map to return a copy  and add
 //** the get keyword in fornt of that */ */ */
@@ -66,8 +66,17 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+//** getting rid of an entry in a map */
   void remove(String productId) {
     _items!.remove(productId);
+    notifyListeners();
+  }
+
+  //** placing and order mean that we need clear the cart because we orderded all
+  //** elemnents , so that cart should be cleared   */ */
+
+  void clear() {
+    _items = {};
     notifyListeners();
   }
 }

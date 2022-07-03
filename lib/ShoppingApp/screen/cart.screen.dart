@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:practice_app/ShoppingApp/Logic/cart.provider.dart';
+import 'package:practice_app/ShoppingApp/Logic/order.provider.dart';
 import 'package:practice_app/ShoppingApp/widgets/cart_items.widget.dart';
 import 'package:provider/provider.dart';
 
@@ -38,15 +39,24 @@ class CartScreen extends StatelessWidget {
                     ),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text('Order Now',
-                        style: TextStyle(
-                          color: Theme.of(context)
-                              .primaryTextTheme
-                              .titleSmall!
-                              .color,
-                        )),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      //** Convert the list of items object into a list of cart items
+                      //** object instead  of passing  the whole map */ */
+                      //** Don't want to listen  to that orderprovider because  not changing my orders */
+                      Provider.of<OrderProvider>(context, listen: false)
+                          .addOrder(
+                        r.items.values.toList(),
+                        r.totalAmount,
+                      );
+                      r.clear();
+                    },
+                    child: const Text(
+                      'Order Now',
+                    ),
                   ),
                 ],
               ),
