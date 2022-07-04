@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 
 import 'product.model.dart';
@@ -54,7 +56,7 @@ class ProductsProvider with ChangeNotifier {
   }
 
 //* For using only single widget filter
-  // void showFavoriteonly() {
+  // void showFavoriteOnly() {
   //   showFavoriteOnly = true;
   //   notifyListeners();
   // }
@@ -65,7 +67,7 @@ class ProductsProvider with ChangeNotifier {
   // }
 
   ProductModel findId(String id) {
-    return _items.firstWhere((element) => element.id == id);
+    return items.firstWhere((element) => element.id == id);
   }
 
 //** For Favorite item  */
@@ -73,7 +75,7 @@ class ProductsProvider with ChangeNotifier {
     return _items.where((proItem) => proItem.isFavorite).toList();
   }
 
-//** For add newProdduct EditProductScreen */
+//** For add newProduct for edit_Product_Screen */
   void addProduct(ProductModel productModel) {
     final newProduct = ProductModel(
       id: DateTime.now().toString(),
@@ -93,14 +95,15 @@ class ProductsProvider with ChangeNotifier {
       _items[proIndex] = newProduct;
       notifyListeners();
     } else {
-      print('no product found');
+      log('no product found');
     }
   }
 
-  //**Delete editProductScren */
+  //**Delete edit_Product_Screen */
 
   void deleteProduct(String id) {
-    _items.retainWhere((element) => element.id == id);
+    log('delete form Provider');
+    _items.removeWhere((element) => element.id == id);
     notifyListeners();
   }
 }

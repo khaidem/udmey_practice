@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:practice_app/ShoppingApp/Logic/product_provider.dart';
 import 'package:practice_app/ShoppingApp/screen/edit_product.screen.dart';
@@ -15,10 +17,10 @@ class UserProductItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     //** Go to/use in user_Product.Screen.dart */
     return ListTile(
-      title: Text(title),
-//** con't use fit in Network because it not a widget,it is and object that does fetching
-//* of the image and then  forword it to circleAvatar  */
+//** don't use fit in NetworkImage because it not a widget,it is and object that does fetching
+//* of the image and then  forward it to circleAvatar  */
       leading: CircleAvatar(backgroundImage: NetworkImage(imageUrl)),
+      title: Text(title),
       trailing: SizedBox(
         width: 100,
         child: Row(
@@ -27,6 +29,7 @@ class UserProductItemWidget extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context)
                     .pushNamed(EditProductScreen.routeName, arguments: id);
+                log('edit bottom');
               },
               icon: Icon(
                 Icons.edit,
@@ -37,6 +40,7 @@ class UserProductItemWidget extends StatelessWidget {
               onPressed: () {
                 Provider.of<ProductsProvider>(context, listen: false)
                     .deleteProduct(id);
+                log('delete bottom');
               },
               icon: Icon(
                 Icons.delete,

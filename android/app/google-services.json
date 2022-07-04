@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "897067718636",
+    "project_id": "udmeypractice",
+    "storage_bucket": "udmeypractice.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:897067718636:android:5b3a1d601f82458aedd2c9",
+        "android_client_info": {
+          "package_name": "com.example.practice_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "897067718636-sls9vefpan3bflggg7r79t3af0msff15.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_t4xRbraqRiaQJjsDk53ItoNT3_4f2B8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "897067718636-sls9vefpan3bflggg7r79t3af0msff15.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

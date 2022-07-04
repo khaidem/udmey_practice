@@ -21,20 +21,22 @@ class EditProductScreen extends StatefulWidget {
 
 class _EditProductScreenState extends State<EditProductScreen> {
   final _focusPrice = FocusNode();
-  final _descrption = FocusNode();
+  final _description = FocusNode();
   final _imageUrlController = TextEditingController();
   final _imageFocus = FocusNode();
   final _form = GlobalKey<FormState>();
   var _editProduct =
       ProductModel(id: '', description: '', imageUrl: '', price: 0, title: '');
 
-  //** using Focus node it might lead to memory leake so us use dispose method
-  //* state object to destory*/
+  //** using Focus node it might lead to memory leak so us use dispose method
+  //* state object to destroy*/
   @override
   void dispose() {
-    _descrption.dispose();
+    _description.dispose();
     _focusPrice.dispose();
     _imageFocus.dispose();
+    _imageFocus.removeListener(_updateImageUrl);
+
     super.dispose();
   }
 
@@ -43,7 +45,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     _imageFocus.addListener(_updateImageUrl);
     super.initState();
   }
-  //**  we need to extract it in editProductScreen form userProdouctScreen of id
+  //**  we need to extract it in editProductScreen form userProductScreen of id
   //** perfect place to extract is in initalState but ModelRoute will not work in
   //** initailState... But if you had data form other source instead form our routing
   //** action you could definitly use  in initailState*/
@@ -59,14 +61,19 @@ class _EditProductScreenState extends State<EditProductScreen> {
   };
 
   var _isInit = true;
+
+  /// This will run first   when we open this page and also we added new product //
+  /// ** So retrive argument form user_product.screen.dart
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      //** A route that blocks interaction with previous routes. -- ModalRoute */
-      final productId = ModalRoute.of(context)!.settings.arguments as String;
-      //** erro in this due to null safty */
+      //** A route that blocks interaction with previous routes. -- ModalRoute
+      //**ModalRoute to retrieve arguments form user_product.screen.dart */ */
+      final productId = ModalRoute.of(context)!.settings.arguments;
+      log(productId.toString());
+      //** error in this due to null safety */
       _editProduct = Provider.of<ProductsProvider>(context, listen: false)
-          .findId(productId);
+          .findId(productId.toString());
       initValues = {
         'title': _editProduct.title,
         'description': _editProduct.description,
@@ -79,26 +86,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
     _isInit = false;
     super.didChangeDependencies();
   }
-  // @override
-  // void didChangeDependencies() {
-  //   if (_isInit) {
-  //     final productId = ModalRoute.of(context)!.settings.arguments as String;
-  //     //** Check for retrieve data/product */
-  //     _editProduct = Provider.of<ProductsProvider>(context, listen: false)
-  //         .findId(productId);
-  //     initValues = {
-  //       'title': _editProduct.title,
-  //       'description': _editProduct.description,
-  //       'price': _editProduct.price.toString(),
-  //       // 'imagUrl': _editProduct.imageUrl,
-  //       'iamgeUrl': '',
-  //     };
-  //     _imageUrlController.text = _editProduct.imageUrl;
-  //   }
-
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
 
   void _updateImageUrl() {
     if (!_imageFocus.hasFocus) {
@@ -187,7 +174,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   keyboardType: TextInputType.number,
                   focusNode: _focusPrice,
                   onFieldSubmitted: (_) {
-                    FocusScope.of(context).requestFocus(_descrption);
+                    FocusScope.of(context).requestFocus(_description);
                   },
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -217,7 +204,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   decoration: const InputDecoration(labelText: 'Description'),
                   keyboardType: TextInputType.multiline,
                   maxLines: 5,
-                  focusNode: _descrption,
+                  focusNode: _description,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Enter des';
@@ -249,7 +236,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         border: Border.all(width: 1, color: Colors.grey),
                       ),
                       child: _imageUrlController.text.isEmpty
-                          ? const Center(child: Text('Empty Image Enter'))
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [Text('Image Empty')])
                           : FittedBox(
                               child: Image.network(
                                 _imageUrlController.text,
@@ -288,12 +278,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       },
                       onSaved: (value) {
                         _editProduct = ProductModel(
-                            id: _editProduct.id,
-                            isFavorite: _editProduct.isFavorite,
-                            title: _editProduct.title,
-                            description: _editProduct.description,
-                            imageUrl: value!,
-                            price: _editProduct.price);
+                          id: _editProduct.id,
+                          isFavorite: _editProduct.isFavorite,
+                          title: _editProduct.title,
+                          description: _editProduct.description,
+                          imageUrl: value!,
+                          price: _editProduct.price,
+                        );
                       },
                     )),
                   ],

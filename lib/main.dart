@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'ShoppingApp/app/app.dart';
+import 'package:practice_app/ShoppingApp/example/home_screem.dart';
 
 void main() {
-  runApp(const ShoppingApp());
+  runApp(const HomeScreen());
 }

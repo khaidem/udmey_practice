@@ -32,14 +32,20 @@ class DrawerWidget extends StatelessWidget {
               Navigator.of(context).pushReplacementNamed(OrderScreen.routeName);
             },
           ),
+          const Divider(
+            thickness: 2,
+          ),
           ListTile(
             leading: const Icon(Icons.edit),
-            title: const Text('Edit'),
+            title: const Text('Edit user-product'),
             onTap: () {
               Navigator.of(context)
                   .pushReplacementNamed(UserProductScreen.routeName);
             },
-          )
+          ),
+          const Divider(
+            thickness: 2,
+          ),
         ],
       ),
     );
