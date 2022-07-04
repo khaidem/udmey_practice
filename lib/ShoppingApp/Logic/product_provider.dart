@@ -68,7 +68,39 @@ class ProductsProvider with ChangeNotifier {
     return _items.firstWhere((element) => element.id == id);
   }
 
+//** For Favorite item  */
   List<ProductModel> get favoriteItem {
     return _items.where((proItem) => proItem.isFavorite).toList();
+  }
+
+//** For add newProdduct EditProductScreen */
+  void addProduct(ProductModel productModel) {
+    final newProduct = ProductModel(
+      id: DateTime.now().toString(),
+      title: productModel.title,
+      description: productModel.description,
+      imageUrl: productModel.imageUrl,
+      price: productModel.price,
+    );
+    _items.add(newProduct);
+    notifyListeners();
+  }
+
+//** For update EditProductScreen */
+  void updateProduct(String id, ProductModel newProduct) {
+    final proIndex = _items.indexWhere((element) => element.id == id);
+    if (proIndex >= 0) {
+      _items[proIndex] = newProduct;
+      notifyListeners();
+    } else {
+      print('no product found');
+    }
+  }
+
+  //**Delete editProductScren */
+
+  void deleteProduct(String id) {
+    _items.retainWhere((element) => element.id == id);
+    notifyListeners();
   }
 }
