@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/cupertino.dart';
 
@@ -76,7 +78,22 @@ class ProductsProvider with ChangeNotifier {
   }
 
 //** For add newProduct for edit_Product_Screen */
-  void addProduct(ProductModel productModel) {
+//*** The product which is missing and ID  */
+//** Sending post request */
+  void addProduct(ProductModel productModel) async {
+    var url = Uri.parse('https://udmeypractice-default-rtdb.firebaseio.com/');
+
+    http.post(
+      url,
+      body: jsonEncode({
+        'title': productModel.title,
+        'description': productModel.description,
+        'imageUrl': productModel.imageUrl,
+        'price': productModel.price,
+        'isFavorite': productModel.isFavorite,
+      }),
+    );
+    // http.post(url, body: json.encode);
     final newProduct = ProductModel(
       id: DateTime.now().toString(),
       title: productModel.title,
@@ -85,10 +102,19 @@ class ProductsProvider with ChangeNotifier {
       price: productModel.price,
     );
     _items.add(newProduct);
+    _items.insert(0, newProduct); //* at the start of the list
     notifyListeners();
   }
 
 //** For update EditProductScreen */
+//** as (async) code it will  automatically wrapped  into a future*/
+//** (await) key dart tell that we want to wait for that operation to
+//** finish before we move on to the next line of Dart code  */ */
+
+//** In (try) block which add all the code eventually fail ,
+//** Not put your code which could fail because you were lazy to properly test it but
+//** user input or internet connection */ */ */
+
   void updateProduct(String id, ProductModel newProduct) {
     final proIndex = _items.indexWhere((element) => element.id == id);
     if (proIndex >= 0) {

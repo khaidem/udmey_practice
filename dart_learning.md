@@ -1,8 +1,10 @@
 
 /// Deep Dive -- Future && Async
 
-Asynchronous-- is as code that runs and might take a bit long and that should not stop 
-               other code form continuing.
+Asynchronous-- is as code that runs and might take a bit long and that should not stop other code form continuing.
+  or is a code doesn't wait for it to finish, as it would be the case here for our 
+  post request
+               
 Example:-
                void main(){
                 var myFuture = Future((){

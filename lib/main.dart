@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:practice_app/ShoppingApp/app/app.dart';
 import 'package:practice_app/ShoppingApp/example/home_screem.dart';
 
 import 'ShoppingApp/example/extract_arguments_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ShoppingApp());
 }
 
 class MyApp extends StatelessWidget {
