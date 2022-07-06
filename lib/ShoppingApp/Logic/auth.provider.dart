@@ -9,7 +9,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> signup(String email, String password) async {
     var url = Uri.parse(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC_t4xRbraqRiaQJjsDk53ItoNT3_4f2B8');
+        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyC_t4xRbraqRiaQJjsDk53ItoNT3_4f2B8');
     final reponse = await http.post(
       url,
       body: json.encode(
