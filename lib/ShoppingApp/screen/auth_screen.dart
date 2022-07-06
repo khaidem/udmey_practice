@@ -1,10 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:practice_app/ShoppingApp/Logic/auth.provider.dart';
+import 'package:provider/provider.dart';
 
 enum AuthMode { Signup, Login }
 
 class AuthScreen extends StatelessWidget {
+  const AuthScreen({Key? key}) : super(key: key);
   static const routeName = '/auth';
 
   @override
@@ -113,7 +116,8 @@ class _AuthCardState extends State<AuthCard> {
     if (_authMode == AuthMode.Login) {
       // Log user in
     } else {
-      // Sign user up
+      context.read<AuthProvider>().signup(
+          _authData['email'].toString(), _authData['password'].toString());
     }
     setState(() {
       _isLoading = false;

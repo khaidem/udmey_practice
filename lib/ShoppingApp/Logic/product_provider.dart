@@ -81,17 +81,20 @@ class ProductsProvider with ChangeNotifier {
 //*** The product which is missing and ID  */
 //** Sending post request */
   void addProduct(ProductModel productModel) async {
-    var url = Uri.parse('https://udmeypractice-default-rtdb.firebaseio.com/');
+    var url =
+        Uri.parse('https://udmeypractice-default-rtdb.firebaseio.com.json');
 
     http.post(
       url,
-      body: jsonEncode({
-        'title': productModel.title,
-        'description': productModel.description,
-        'imageUrl': productModel.imageUrl,
-        'price': productModel.price,
-        'isFavorite': productModel.isFavorite,
-      }),
+      body: json.encode(
+        {
+          'title': productModel.title,
+          'description': productModel.description,
+          'imageUrl': productModel.imageUrl,
+          'price': productModel.price,
+          'isFavorite': productModel.isFavorite,
+        },
+      ),
     );
     // http.post(url, body: json.encode);
     final newProduct = ProductModel(

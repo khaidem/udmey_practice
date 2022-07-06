@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:practice_app/ShoppingApp/Logic/auth.provider.dart';
 import 'package:practice_app/ShoppingApp/example/extract_arguments_screen.dart';
 
 import 'package:practice_app/ShoppingApp/screen/auth_screen.dart';
@@ -15,6 +16,7 @@ class ShoppingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(
           create: (context) => ProductsProvider(),
         ),
@@ -33,7 +35,7 @@ class ShoppingApp extends StatelessWidget {
               ColorScheme.fromSwatch().copyWith(secondary: Colors.deepOrange),
         ),
         debugShowCheckedModeBanner: false,
-        home: AuthScreen(),
+        home: const AuthScreen(),
         routes: {
           ProductDetailsScreen.routeName: (context) =>
               const ProductDetailsScreen(),
@@ -43,7 +45,7 @@ class ShoppingApp extends StatelessWidget {
           EditProductScreen.routeName: (context) => const EditProductScreen(),
           ExtractArgumentsScreen.routeName: (context) =>
               const ExtractArgumentsScreen(),
-          AuthScreen.routeName: (context) => AuthScreen(),
+          AuthScreen.routeName: (context) => const AuthScreen(),
         },
       ),
     );
