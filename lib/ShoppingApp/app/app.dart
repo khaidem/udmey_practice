@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:practice_app/ShoppingApp/example/extract_arguments_screen.dart';
+
+import 'package:practice_app/ShoppingApp/screen/auth_screen.dart';
 import 'package:practice_app/ShoppingApp/screen/edit_product.screen.dart';
 import 'package:practice_app/ShoppingApp/screen/user_product.screen.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +33,7 @@ class ShoppingApp extends StatelessWidget {
               ColorScheme.fromSwatch().copyWith(secondary: Colors.deepOrange),
         ),
         debugShowCheckedModeBanner: false,
-        home: const ProductScreen(),
+        home: AuthScreen(),
         routes: {
           ProductDetailsScreen.routeName: (context) =>
               const ProductDetailsScreen(),
@@ -41,6 +43,7 @@ class ShoppingApp extends StatelessWidget {
           EditProductScreen.routeName: (context) => const EditProductScreen(),
           ExtractArgumentsScreen.routeName: (context) =>
               const ExtractArgumentsScreen(),
+          AuthScreen.routeName: (context) => AuthScreen(),
         },
       ),
     );

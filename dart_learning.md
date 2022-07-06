@@ -19,4 +19,4 @@ Example:-
                 print('This also run before  the future  is done!');
                }
 
-              
+Cascade notation - is syntactic sugar in Dart that allows you to make a sequence of operations on the same object.    
