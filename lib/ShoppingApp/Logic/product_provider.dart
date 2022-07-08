@@ -105,7 +105,7 @@ class ProductsProvider with ChangeNotifier {
       price: productModel.price,
     );
     _items.add(newProduct);
-    _items.insert(0, newProduct); //* at the start of the list
+    // _items.insert(0, newProduct); //* at the start of the list
     notifyListeners();
   }
 

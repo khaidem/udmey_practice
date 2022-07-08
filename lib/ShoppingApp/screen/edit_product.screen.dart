@@ -22,7 +22,7 @@ class EditProductScreen extends StatefulWidget {
 class _EditProductScreenState extends State<EditProductScreen> {
   final _focusPrice = FocusNode();
   final _description = FocusNode();
-  final _imageUrlController = TextEditingController();
+  final _imageUrlController = TextEditingController(text: 'imageUrl');
   final _imageFocus = FocusNode();
   final _form = GlobalKey<FormState>();
   var _editProduct =
@@ -54,40 +54,41 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
 //** These are setUp for newProduct and we override them here */
   //** This code is error in Flutter 3 */
-  // var initValues = {
-  //   'title': '',
-  //   'description': '',
-  //   'price': '',
-  //   'imagUrl': '',
-  // };
+  var initValues = {
+    'title': '',
+    'description': '',
+    'price': '',
+    'imagUrl': '',
+  };
 
   ///** This code is error in flutter 3 */ */
 
   ///* This will run first   when we open this page and also we added new product //
   /// ** So retrive argument form user_product.screen.dart
-  // final _isInit = true;
-  // @override
-  // void didChangeDependencies() {
-  //   if (_isInit) {
-  //     //** A route that blocks interaction with previous routes. -- ModalRoute
-  //     //**ModalRoute to retrieve arguments form user_product.screen.dart */ */
-  //     final productId = ModalRoute.of(context)!.settings.arguments;
-  //     log(productId.toString());
-  //     //** error in this due to null safety */
-  //     _editProduct = Provider.of<ProductsProvider>(context, listen: false)
-  //         .findId(productId.toString());
-  //     initValues = {
-  //       'title': _editProduct.title,
-  //       'description': _editProduct.description,
-  //       'price': _editProduct.price.toString(),
-  //       // 'imageUrl': _editedProduct.imageUrl,
-  //       'imageUrl': '',
-  //     };
-  //     _imageUrlController.text = _editProduct.imageUrl;
-  //   }
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
+  var _isInit = true;
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      //** A route that blocks interaction with previous routes. -- ModalRoute
+      //**ModalRoute to retrieve arguments form user_product.screen.dart */ */
+      final productId = ModalRoute.of(context)!.settings.arguments;
+      if (productId != null) {
+        _editProduct = Provider.of<ProductsProvider>(context, listen: false)
+            .findId(productId.toString());
+        initValues = {
+          'title': _editProduct.title,
+          'description': _editProduct.description,
+          'price': _editProduct.price.toString(),
+          // 'imageUrl': _editedProduct.imageUrl,
+          'imageUrl': '',
+        };
+        _imageUrlController.text = _editProduct.imageUrl;
+      }
+      log(productId.toString());
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   void _updateImageUrl() {
     if (!_imageFocus.hasFocus) {
@@ -151,7 +152,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
             child: ListView(
               children: [
                 TextFormField(
-                  // initialValue: initValues['title'],
+                  initialValue: initValues['title'],
                   decoration: const InputDecoration(labelText: 'Title'),
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (_) {
@@ -175,7 +176,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   },
                 ),
                 TextFormField(
-                  // initialValue: initValues['price'],
+                  initialValue: initValues['price'],
                   decoration: const InputDecoration(labelText: 'price'),
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.number,
@@ -207,7 +208,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   },
                 ),
                 TextFormField(
-                  // initialValue: initValues['description'],
+                  initialValue: initValues['description'],
                   decoration: const InputDecoration(labelText: 'Description'),
                   keyboardType: TextInputType.multiline,
                   maxLines: 5,
@@ -256,7 +257,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     ),
                     Expanded(
                         child: TextFormField(
-                      // initialValue: initValues['imageUrl'],
+                      //** You can't use both initialValue and controller at the same time.
+                      //**So, it's better to use controller as you can set default text in its constructor. */
+                      // initialValue: initValues['imageUrl'], -> old code In flutter 3 will get error
+
                       decoration: const InputDecoration(labelText: 'Image URL'),
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
