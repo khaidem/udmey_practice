@@ -59,7 +59,7 @@ class ProduuctItemWidget extends StatelessWidget {
           ),
           trailing: IconButton(
             onPressed: () {
-              cart.add(d.id, d.price, d.title);
+              cart.add(d.id!, d.price, d.title);
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -68,7 +68,7 @@ class ProduuctItemWidget extends StatelessWidget {
                   action: SnackBarAction(
                       label: 'UNDO',
                       onPressed: () {
-                        cart.removeSingleItem(d.id);
+                        cart.removeSingleItem(d.id!);
                       }),
                 ),
               );

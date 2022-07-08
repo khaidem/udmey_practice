@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class ProductModel with ChangeNotifier {
-  final String id;
+  final String? id;
   final String title;
   final String description;
   final String imageUrl;

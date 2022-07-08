@@ -39,7 +39,8 @@ class ShoppingApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
 
           //checking for auth or not
-          home: auth.isAuth ? const ProductScreen() : const AuthScreen(),
+          // auth.isAuth ? const ProductScreen() : const AuthScreen(),
+          home: const ProductScreen(),
           routes: {
             ProductDetailsScreen.routeName: (context) =>
                 const ProductDetailsScreen(),

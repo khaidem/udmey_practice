@@ -1,9 +1,9 @@
 //** StateFull Widget use because we want to manage the data in widget user might
-//** Cancel, adding, do anthing , so the general app is not effected by the user input
+//** Cancel, adding, do anything, so the general app is not effected by the user input
 //** until it resubmit it .
 //* so want to manage the user input and validate it and  so locally in this  widget
-//** and hence so satefull widget is the right solution. Instead of provider package
-//** or gloally confrigure */ */ */ */ */
+//** and hence so stateful widget is the right solution. Instead of provider package
+//** or globaly confrigure */ */ */ */ */
 
 import 'dart:developer';
 
@@ -22,7 +22,9 @@ class EditProductScreen extends StatefulWidget {
 class _EditProductScreenState extends State<EditProductScreen> {
   final _focusPrice = FocusNode();
   final _description = FocusNode();
-  final _imageUrlController = TextEditingController(text: 'imageUrl');
+
+  //** for adding initialValue add to TextEditingController */
+  final _imageUrlController = TextEditingController();
   final _imageFocus = FocusNode();
   final _form = GlobalKey<FormState>();
   var _editProduct =
@@ -53,15 +55,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
 //** disChange dependency also run before build */
 
 //** These are setUp for newProduct and we override them here */
-  //** This code is error in Flutter 3 */
+
   var initValues = {
     'title': '',
     'description': '',
     'price': '',
-    'imagUrl': '',
+    'imageUrl': '',
   };
-
-  ///** This code is error in flutter 3 */ */
 
   ///* This will run first   when we open this page and also we added new product //
   /// ** So retrive argument form user_product.screen.dart
@@ -79,7 +79,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
           'title': _editProduct.title,
           'description': _editProduct.description,
           'price': _editProduct.price.toString(),
-          // 'imageUrl': _editedProduct.imageUrl,
+          // 'imageUrl': _editProduct.imageUrl,
           'imageUrl': '',
         };
         _imageUrlController.text = _editProduct.imageUrl;
@@ -111,20 +111,31 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
     //** is valid use save */
     _form.currentState!.save();
-    log(_editProduct.title);
+    // context.read<ProductsProvider>().addNewProduct(_editProduct);
     Provider.of<ProductsProvider>(context, listen: false)
-        .addProduct(_editProduct);
+        .addNewProduct(_editProduct);
+
+    //*** Finding out whether we are editing or not. Edited Product Id is only set if we load
+    //** a product because we received an Id as an argument because if we receive an Id as an argument
+    //** we kick off this whole logic here where we find a product by Id and then our edited product then
+    //** and this Obviously has an Id we are finding By ID, Instead if you are adding a new Product
+    //** edited product is set equal to a product where we set the Id to null , so where we don't have an Id and
+    //** therefore this is great check. if we have an Id , so if this is not equal to null , then i know I'm editing.
+    //** If we have an Id and not equal to null , then this product existed before otherwise we are adding
+    //** so in the else case , we want to call add product, in the edit case we want to update and existing product */ */ */ */ */ */ */ */
+    // if (_editProduct.id != null) {
+    //   // Provider.of<ProductsProvider>(context, listen: false)
+    //   //     .updateProduct(_editProduct.id!, _editProduct);
+    //   context
+    //       .read<ProductsProvider>()
+    //       .updateProduct(_editProduct.id!, _editProduct);
+    // } else {
+    //   // Provider.of<ProductsProvider>(context, listen: false)
+    //   //     .addNewProduct(_editProduct);
+    //   context.read<ProductsProvider>().addNewProduct(_editProduct);
+    // }
+
     Navigator.of(context).pop();
-
-    ///** this code is error in flutter 3 */
-    //   if (_editProduct.id != null) {
-    //     Provider.of<ProductsProvider>(context)
-    //         .updateProduct(_editProduct.id.toString(), _editProduct);
-    //   } else {
-    //     Provider.of<ProductsProvider>(context).addProduct(_editProduct);
-    //   }
-
-    //   Navigator.of(context).pop();
   }
 
   @override
@@ -166,6 +177,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   },
                   onSaved: (value) {
                     _editProduct = ProductModel(
+                      //** we set Id as null and say nothing about the Favorite Status which
+                      //** mean that we all use the default favorite status of false to recreate
+                      //** these products. Therefore , my ID get lost and the previous favorite
+                      //** status get lost . Solution is to set this equal to  _editProduct.id and
+                      //** also set isFavorite equal to editedProduct.isFavorite.
+                      //** so all the places where we crate a new Product we add this*/ */ */ */ */
                       id: _editProduct.id,
                       isFavorite: _editProduct.isFavorite,
                       title: value!,
@@ -189,7 +206,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       return "Enter price";
                     }
                     if (double.tryParse(value) == null) {
-                      return 'Enter vaild number';
+                      return 'Enter valid number';
                     }
                     if (double.parse(value) <= 0) {
                       return 'Number should be Greater than zero';
@@ -199,12 +216,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   },
                   onSaved: (value) {
                     _editProduct = ProductModel(
-                        id: _editProduct.id,
-                        isFavorite: _editProduct.isFavorite,
-                        title: _editProduct.title,
-                        description: _editProduct.description,
-                        imageUrl: _editProduct.imageUrl,
-                        price: double.parse(value!));
+                      id: _editProduct.id,
+                      isFavorite: _editProduct.isFavorite,
+                      title: _editProduct.title,
+                      description: _editProduct.description,
+                      imageUrl: _editProduct.imageUrl,
+                      price: double.parse(value!),
+                    );
                   },
                 ),
                 TextFormField(
@@ -259,7 +277,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         child: TextFormField(
                       //** You can't use both initialValue and controller at the same time.
                       //**So, it's better to use controller as you can set default text in its constructor. */
-                      // initialValue: initValues['imageUrl'], -> old code In flutter 3 will get error
+                      // initialValue: initValues['imageUrl'],
 
                       decoration: const InputDecoration(labelText: 'Image URL'),
                       keyboardType: TextInputType.url,
