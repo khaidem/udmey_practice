@@ -27,26 +27,31 @@ class ShoppingApp extends StatelessWidget {
           create: (context) => OrderProvider(),
         ),
       ],
-      child: MaterialApp(
-        title: 'MyShop',
-        theme: ThemeData(
-          primaryColor: Colors.purple,
-          colorScheme:
-              ColorScheme.fromSwatch().copyWith(secondary: Colors.deepOrange),
+      child: Consumer<AuthProvider>(
+        builder: (cxt, auth, _) => MaterialApp(
+          title: 'MyShop',
+          theme: ThemeData(
+            primaryColor: Colors.purple,
+            fontFamily: 'Poppins',
+            colorScheme:
+                ColorScheme.fromSwatch().copyWith(secondary: Colors.deepOrange),
+          ),
+          debugShowCheckedModeBanner: false,
+
+          //checking for auth or not
+          home: auth.isAuth ? const ProductScreen() : const AuthScreen(),
+          routes: {
+            ProductDetailsScreen.routeName: (context) =>
+                const ProductDetailsScreen(),
+            CartScreen.routeName: (context) => const CartScreen(),
+            OrderScreen.routeName: (context) => const OrderScreen(),
+            UserProductScreen.routeName: (context) => const UserProductScreen(),
+            EditProductScreen.routeName: (context) => const EditProductScreen(),
+            ExtractArgumentsScreen.routeName: (context) =>
+                const ExtractArgumentsScreen(),
+            AuthScreen.routeName: (context) => const AuthScreen(),
+          },
         ),
-        debugShowCheckedModeBanner: false,
-        home: const AuthScreen(),
-        routes: {
-          ProductDetailsScreen.routeName: (context) =>
-              const ProductDetailsScreen(),
-          CartScreen.routeName: (context) => const CartScreen(),
-          OrderScreen.routeName: (context) => const OrderScreen(),
-          UserProductScreen.routeName: (context) => const UserProductScreen(),
-          EditProductScreen.routeName: (context) => const EditProductScreen(),
-          ExtractArgumentsScreen.routeName: (context) =>
-              const ExtractArgumentsScreen(),
-          AuthScreen.routeName: (context) => const AuthScreen(),
-        },
       ),
     );
   }

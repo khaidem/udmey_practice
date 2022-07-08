@@ -84,14 +84,6 @@ class AuthScreen extends StatelessWidget {
   }
 }
 
-//    final FirebaseAuth auth = FirebaseAuth.instance;
-
-//   Future<void> createAccount(String email, String password) {
-//     return auth.createUserWithEmailAndPassword(
-//         email: email, password: password);
-//   }
-// }
-
 class AuthCard extends StatefulWidget {
   const AuthCard({
     Key? key,
@@ -117,7 +109,7 @@ class _AuthCardState extends State<AuthCard> {
         title: const Text('An Error Occurred!'),
         content: Text(message),
         actions: <Widget>[
-          FlatButton(
+          ElevatedButton(
             child: const Text('Okay'),
             onPressed: () {
               Navigator.of(ctx).pop();
@@ -255,26 +247,35 @@ class _AuthCardState extends State<AuthCard> {
                 if (_isLoading)
                   const CircularProgressIndicator()
                 else
-                  RaisedButton(
+                  ElevatedButton(
                     child:
                         Text(_authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
                     onPressed: _submit,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30.0, vertical: 8.0),
-                    color: Theme.of(context).primaryColor,
-                    textColor: Theme.of(context).primaryTextTheme.button!.color,
                   ),
-                FlatButton(
+                // shape: RoundedRectangleBorder(
+                //   borderRadius: BorderRadius.circular(30),
+                // ),
+                // padding: const EdgeInsets.symmetric(
+                //     horizontal: 30.0, vertical: 8.0),
+                // color: Theme.of(context).primaryColor,
+                // textColor: Theme.of(context).primaryTextTheme.button!.color,
+                TextButton(
                   child: Text(
-                      '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
+                    '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   onPressed: _switchAuthMode,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  textColor: Theme.of(context).primaryColor,
+                  // padding:
+                  //     const EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
+                  // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  // textColor: Theme.of(context).primaryColor,
                 ),
               ],
             ),
