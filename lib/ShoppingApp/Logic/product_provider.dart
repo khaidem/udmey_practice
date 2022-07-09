@@ -229,15 +229,14 @@ class ProductsProvider with ChangeNotifier {
     final url = Uri.parse(
         'https://udmeypractice-default-rtdb.firebaseio.com/product/$id');
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
-    var existingProduct = _items[existingProductIndex];
-    final response = await http.delete(url).then((response) {
-      if (response.statusCode >= 400) {
-        throw HttpException('could not delete Product');
-      }
-      // existingProduct = null;
-    });
-    log('delete form Provider');
-    _items.removeWhere((element) => element.id == id);
-    notifyListeners();
+    ProductModel? existingProduct = _items[existingProductIndex];
+    _items.removeAt(existingProductIndex);
+    final response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      throw HttpException('could not delete Product');
+    }
+    existingProduct = null;
   }
 }
