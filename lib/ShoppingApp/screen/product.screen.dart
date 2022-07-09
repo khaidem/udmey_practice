@@ -1,10 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:practice_app/ShoppingApp/Logic/cart.provider.dart';
+import 'package:practice_app/ShoppingApp/Logic/logic.dart';
 import 'package:practice_app/ShoppingApp/screen/badge.screen.dart';
 import 'package:practice_app/ShoppingApp/screen/cart.screen.dart';
-import 'package:practice_app/ShoppingApp/widgets/drawer.widget.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/widgets.dart';
@@ -24,6 +23,52 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   var _showOnlyFavorite = false;
+  var _isInit = true;
+  var _isLoading = false;
+
+  @override
+  void initState() {
+    //** These should not work here simply because the widget is not fully
+    //** wired up with everything here  */ */
+    // Provider.of<ProductsProvider>(context).fetchAndSetProducts();
+    //** we use Future delayed here ,which is a helper constructor, to build a new
+    //** future , there you  add a duration and I'll use duration Zero to basically add
+    //** no delay and then you can add a then block and in that function here
+    //** you could now actually reach out to your provider and do that fetching, so
+    //** could do that here know the value we are getting  and we would be fine
+    //** and even thought it is technically also execute immediately because we have zero
+    //** duration until this code run, so this simply a helper constructor which crate a
+    //** future which execute than after this duration passed */  */  */ */  */ */ */ */
+
+    // Future.delayed(Duration.zero).then((_) {
+    //   Provider.of<ProductsProvider>(context).fetchAndSetProducts();
+    // });
+
+    super.initState();
+  }
+
+  //** Another method for fetching data after widget fully loaded
+  //** initState ,run more often multiple times and not just when this gets created
+  //** so when using these approach, we should have another helper var or property like isInit */
+  @override
+  void didChangeDependencies() {
+    //* If we run this first time basically and only execute some code if that true and
+    //** isInit to false thereafter, so that this never run again and then we can put code */
+    // */
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<ProductsProvider>(context).fetchAndSetProducts().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     //* when we filter here in our provider class can often be a problem
@@ -78,9 +123,13 @@ class _ProductScreenState extends State<ProductScreen> {
         ],
       ),
       drawer: const DrawerWidget(),
-      body: ProductGridWidget(
-        showFavorite: _showOnlyFavorite,
-      ),
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : ProductGridWidget(
+              showFavorite: _showOnlyFavorite,
+            ),
     );
   }
 }
