@@ -22,10 +22,11 @@ class UserProductScreen extends StatelessWidget {
         title: const Text(' Your product'),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(EditProductScreen.routeName);
-              },
-              icon: const Icon(Icons.add))
+            onPressed: () {
+              Navigator.of(context).pushNamed(EditProductScreen.routeName);
+            },
+            icon: const Icon(Icons.add),
+          )
         ],
       ),
       drawer: const DrawerWidget(),

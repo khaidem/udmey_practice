@@ -7,11 +7,12 @@ class CartItem {
   final int quantity;
   final String id;
 
-  CartItem(
-      {required this.id,
-      required this.title,
-      required this.price,
-      required this.quantity});
+  CartItem({
+    required this.id,
+    required this.title,
+    required this.price,
+    required this.quantity,
+  });
 }
 
 class CartProvider with ChangeNotifier {

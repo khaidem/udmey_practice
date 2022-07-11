@@ -30,3 +30,4 @@ Cascade notation - is syntactic sugar in Dart that allows you to make a sequence
 
  //** Implements Exception  in class - Implements uses a class, it an abstract class.
 //** Abstract mean we can't directly instantiate and end in the end when we implements a class , we are signing a contract, we are forced to implements all function.
+

@@ -9,3 +9,12 @@
   *In flutter use Token - Once the user logged in such a token is generated on the server with the certain algorithem and certain private key that only know to the server so that the token can't be faked and the token is the end a very long String which is back to flutter app .
 
   * So Token is store on the device  not on the server not in the database.This allow us read it form there when the app restart. 
+
+  //Future Builder: why uses
+   
+    when we are building a statefull widget here simply such that we can uses initState
+    to initialize our Data . In our app we can make call which only run once when Screen get rendered. so making fetch and build is not a option.
+
+ The Alernative we use is FutureBuilder Widget- The Future Builder Widget take a future
+ and it then automatically start listening to that.so it add to then and to catch 
+ error method for you and it take a builder which will get the current snapshot , the current state of your future  so that you can build different content base on what your future return

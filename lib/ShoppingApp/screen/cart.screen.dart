@@ -85,6 +85,7 @@ class _OrderButtonState extends State<OrderButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      // Disable the button has no loading we have not check the cart amount this also be disable
       onPressed: (widget.r.totalAmount <= 0 || _isloading)
           ? null
           : () async {
@@ -94,7 +95,8 @@ class _OrderButtonState extends State<OrderButton> {
 
               //** Convert the list of items object into a list of cart items
               //** object instead  of passing  the whole map */ */
-              //** Don't want to listen  to that orderprovider because  not changing my orders */
+              //** Don't want to listen  to that orderProvider because
+              //** not changing my orders */
 
               await Provider.of<OrderProvider>(context, listen: false).addOrder(
                 widget.r.items.values.toList(),

@@ -83,8 +83,11 @@ class ProductsProvider with ChangeNotifier {
         'https://udmeypractice-default-rtdb.firebaseio.com/product.json');
     try {
       final response = await http.get(url);
-      final extraData = json.decode(response.body) as Map<String, dynamic>;
+      final extraData = json.decode(response.body) as Map<String, dynamic>?;
       final List<ProductModel> loadedProduct = [];
+      if (extraData == null) {
+        return;
+      }
       extraData.forEach((proId, prodData) {
         loadedProduct.add(ProductModel(
             id: proId,
@@ -169,6 +172,9 @@ class ProductsProvider with ChangeNotifier {
       _items.add(newProduct);
       // _items.insert(0, newProduct); //* at the start of the list
       notifyListeners();
+      print(
+        json.decode(response.body)['name'],
+      );
       //** return inside anonymous function */
       // return Future.value();
     } catch (error) {

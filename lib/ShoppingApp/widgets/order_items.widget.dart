@@ -37,10 +37,10 @@ class _OrderItemsWidgetState extends State<OrderItemsWidget> {
         if (expanded)
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-            height: min(widget.orderItem.cartProvider.length * 20 + 10, 2000),
+            height: min(widget.orderItem.cartProduct.length * 20 + 10, 2000),
             //** when we want data form widget and Iterable in listView don't use [] in children */
             child: ListView(
-                children: widget.orderItem.cartProvider
+                children: widget.orderItem.cartProduct
                     .map(
                       (e) => Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
