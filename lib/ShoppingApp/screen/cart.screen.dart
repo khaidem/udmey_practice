@@ -42,22 +42,7 @@ class CartScreen extends StatelessWidget {
                   const SizedBox(
                     width: 5,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      //** Convert the list of items object into a list of cart items
-                      //** object instead  of passing  the whole map */ */
-                      //** Don't want to listen  to that orderprovider because  not changing my orders */
-                      Provider.of<OrderProvider>(context, listen: false)
-                          .addOrder(
-                        r.items.values.toList(),
-                        r.totalAmount,
-                      );
-                      r.clear();
-                    },
-                    child: const Text(
-                      'Order Now',
-                    ),
-                  ),
+                  OrderButton(r: r),
                 ],
               ),
             ),
@@ -78,6 +63,53 @@ class CartScreen extends StatelessWidget {
           ))
         ],
       ),
+    );
+  }
+}
+
+//** For Loading Indicator work only  in Order Button  */
+class OrderButton extends StatefulWidget {
+  const OrderButton({
+    Key? key,
+    required this.r,
+  }) : super(key: key);
+
+  final CartProvider r;
+
+  @override
+  State<OrderButton> createState() => _OrderButtonState();
+}
+
+class _OrderButtonState extends State<OrderButton> {
+  var _isloading = false;
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: (widget.r.totalAmount <= 0 || _isloading)
+          ? null
+          : () async {
+              setState(() {
+                _isloading = true;
+              });
+
+              //** Convert the list of items object into a list of cart items
+              //** object instead  of passing  the whole map */ */
+              //** Don't want to listen  to that orderprovider because  not changing my orders */
+
+              await Provider.of<OrderProvider>(context, listen: false).addOrder(
+                widget.r.items.values.toList(),
+                widget.r.totalAmount,
+              );
+              setState(() {
+                _isloading = false;
+              });
+              widget.r.clear();
+            },
+      child: _isloading
+          ? const CircularProgressIndicator()
+          : const Text(
+              'Order Now',
+            ),
     );
   }
 }

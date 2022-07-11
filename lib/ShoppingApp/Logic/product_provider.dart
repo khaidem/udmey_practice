@@ -227,10 +227,11 @@ class ProductsProvider with ChangeNotifier {
 
   void deleteProduct(String id) async {
     final url = Uri.parse(
-        'https://udmeypractice-default-rtdb.firebaseio.com/product/$id');
+        'https://udmeypractice-default-rtdb.firebaseio.com/product/$id.json');
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     ProductModel? existingProduct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);
+    notifyListeners();
     final response = await http.delete(url);
     if (response.statusCode >= 400) {
       _items.insert(existingProductIndex, existingProduct);

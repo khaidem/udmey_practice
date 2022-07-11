@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:practice_app/ShoppingApp/Logic/cart.provider.dart';
+import 'package:http/http.dart' as http;
 
 class OrderItem {
   final String id;
@@ -26,12 +29,34 @@ class OrderProvider with ChangeNotifier {
   //** Add  is added in the end of the list
   //** insert   is use for add beginning of the list one index ahead to the end */
 
-  void addOrder(List<CartItem> cartProducts, double total) {
+  Future<void> addOrder(List<CartItem> cartProducts, double total) async {
+    final url = Uri.parse(
+        'https://udmeypractice-default-rtdb.firebaseio.com/orders.json');
+    final timeStamp = DateTime.now();
+    final response = await http.patch(
+      url,
+      body: json.encode(
+        {
+          'amount': total,
+          'dateTime': DateTime.now().toIso8601String(),
+          'products': cartProducts
+              .map((e) => {
+                    'id': e.id,
+                    'title': e.title,
+                    'quantity': e.quantity,
+                    'price': e.price,
+                  })
+              .toList(),
+        },
+      ),
+    );
+    // this is into the device locally enter
     _orders.insert(
       0,
       OrderItem(
         cartProvider: cartProducts,
-        dateTime: DateTime.now(),
+        dateTime: timeStamp,
+        //** Auto generate Id for Order */
         id: DateTime.now().toString(),
         price: total,
       ),

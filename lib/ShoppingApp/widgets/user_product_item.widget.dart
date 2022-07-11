@@ -16,6 +16,7 @@ class UserProductItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //** Go to/use in user_Product.Screen.dart */
+    final scaffold = ScaffoldMessenger.of(context);
     return ListTile(
 //** don't use fit in NetworkImage because it not a widget,it is and object that does fetching
 //* of the image and then  forward it to circleAvatar  */
@@ -43,7 +44,7 @@ class UserProductItemWidget extends StatelessWidget {
                       .deleteProduct(id);
                   log('delete bottom');
                 } catch (error) {
-                  Scaffold.of(context).showSnackBar(
+                  scaffold.showSnackBar(
                       const SnackBar(content: Text('Deleting  failed')));
                 }
               },
