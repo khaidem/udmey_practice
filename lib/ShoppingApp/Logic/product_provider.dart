@@ -78,23 +78,45 @@ class ProductsProvider with ChangeNotifier {
     return _items.where((proItem) => proItem.isFavorite).toList();
   }
 
-  Future<void> fetchAndSetProducts() async {
-    final url = Uri.parse(
-        'https://udmeypractice-default-rtdb.firebaseio.com/product.json');
+//*** we need to attached token to outgoing request firebase support these */
+  final String? authToken;
+  final String userId;
+  ProductsProvider(
+    this.authToken,
+    this.userId,
+    this._items,
+  );
+
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
+    var url = Uri.parse(
+        'https://udmeypractice-default-rtdb.firebaseio.com/product.json?auth=$authToken&$filterString');
     try {
       final response = await http.get(url);
       final extraData = json.decode(response.body) as Map<String, dynamic>?;
-      final List<ProductModel> loadedProduct = [];
+
       if (extraData == null) {
         return;
       }
+      url = Uri.parse(
+          //** Different Url Send For Favorite */
+          'https://udmeypractice-default-rtdb.firebaseio.com/userFavorite/$userId.json?auth=$authToken');
+      final List<ProductModel> loadedProduct = [];
+      final favoriteRepo = await http.get(url);
+      final favoriteData = json.decode(favoriteRepo.body);
       extraData.forEach((proId, prodData) {
-        loadedProduct.add(ProductModel(
+        loadedProduct.add(
+          ProductModel(
             id: proId,
             title: prodData['title'],
             description: prodData['description'],
             imageUrl: prodData['imageUrl'],
-            price: prodData['price']));
+            price: prodData['price'],
+            isFavorite:
+                favoriteData == null ? false : favoriteData[proId] ?? false,
+          ),
+        );
       });
       _items = loadedProduct;
       notifyListeners();
@@ -158,6 +180,7 @@ class ProductsProvider with ChangeNotifier {
             'imageUrl': productModel.imageUrl,
             'price': productModel.price,
             'isFavorite': productModel.isFavorite,
+            'creatorId': userId,
           },
         ),
       );
@@ -207,7 +230,7 @@ class ProductsProvider with ChangeNotifier {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
       final url = Uri.parse(
-          'https://udmeypractice-default-rtdb.firebaseio.com/product/$id.json');
+          'https://udmeypractice-default-rtdb.firebaseio.com/product/$id.json?auth=$authToken');
       //** Sending a patch request will tell to merge the data which is encoming
       //** with the existing data as that address you are sending it to. */ */
       await http.patch(
@@ -233,7 +256,7 @@ class ProductsProvider with ChangeNotifier {
 
   void deleteProduct(String id) async {
     final url = Uri.parse(
-        'https://udmeypractice-default-rtdb.firebaseio.com/product/$id.json');
+        'https://udmeypractice-default-rtdb.firebaseio.com/product/$id.json?auth=$authToken');
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     ProductModel? existingProduct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);

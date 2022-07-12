@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:practice_app/ShoppingApp/Logic/auth.provider.dart';
 import 'package:practice_app/ShoppingApp/screen/orders.screen.dart';
 import 'package:practice_app/ShoppingApp/screen/user_product.screen.dart';
+import 'package:provider/provider.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({Key? key}) : super(key: key);
@@ -45,6 +47,13 @@ class DrawerWidget extends StatelessWidget {
           ),
           const Divider(
             thickness: 2,
+          ),
+          ListTile(
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text('Log Out'),
+            onTap: () {
+              Provider.of<AuthProvider>(context, listen: false).logOut();
+            },
           ),
         ],
       ),

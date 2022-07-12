@@ -10,17 +10,26 @@ class OrderItem {
   final List<CartItem> cartProduct;
   final DateTime dateTime;
 
-  OrderItem(
-      {required this.cartProduct,
-      required this.dateTime,
-      required this.id,
-      required this.price});
+  OrderItem({
+    required this.cartProduct,
+    required this.dateTime,
+    required this.id,
+    required this.price,
+  });
 }
 
 class OrderProvider with ChangeNotifier {
   //** we need list of items */
   //** we are doing this so that form outside of class we can't edit orders */
   List<OrderItem> _orders = [];
+  final String authToken;
+  final String userId;
+  OrderProvider(
+    this.authToken,
+    this.userId,
+    this._orders,
+  );
+
   List<OrderItem> get orders {
     return [..._orders];
   }
@@ -32,7 +41,7 @@ class OrderProvider with ChangeNotifier {
 //** Add OrderNow to Firebase */
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
     final url = Uri.parse(
-        'https://udmeypractice-default-rtdb.firebaseio.com/orders.json');
+        'https://udmeypractice-default-rtdb.firebaseio.com/orders.json?auth=$authToken');
     final timeStamp = DateTime.now();
     // send OrderNow to Firebase
     final response = await http.post(
@@ -42,12 +51,14 @@ class OrderProvider with ChangeNotifier {
           'amount': total,
           'dateTime': DateTime.now().toIso8601String(),
           'products': cartProducts
-              .map((cp) => {
-                    'id': cp.id,
-                    'title': cp.title,
-                    'quantity': cp.quantity,
-                    'price': cp.price,
-                  })
+              .map(
+                (cp) => {
+                  'id': cp.id,
+                  'title': cp.title,
+                  'quantity': cp.quantity,
+                  'price': cp.price,
+                },
+              )
               .toList(),
         },
       ),
@@ -70,7 +81,7 @@ class OrderProvider with ChangeNotifier {
 //** Fetch Data form Firebase For orderNow */
   Future<void> fetchOrder() async {
     final url = Uri.parse(
-        'https://udmeypractice-default-rtdb.firebaseio.com/orders.json');
+        'https://udmeypractice-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken');
     final response = await http.get(url);
     print(json.decode(response.body));
 

@@ -18,3 +18,6 @@
  The Alernative we use is FutureBuilder Widget- The Future Builder Widget take a future
  and it then automatically start listening to that.so it add to then and to catch 
  error method for you and it take a builder which will get the current snapshot , the current state of your future  so that you can build different content base on what your future return
+
+
+ 

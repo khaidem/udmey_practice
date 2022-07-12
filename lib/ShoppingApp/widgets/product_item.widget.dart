@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:practice_app/ShoppingApp/Logic/auth.provider.dart';
 import 'package:practice_app/ShoppingApp/Logic/cart.provider.dart';
 import 'package:practice_app/ShoppingApp/screen/product_details.screen.dart';
 import 'package:provider/provider.dart';
@@ -19,11 +20,12 @@ class ProduuctItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final d = Provider.of<ProductModel>(context, listen: false);
     final cart = Provider.of<CartProvider>(context, listen: false);
-    //*Listen to fall use because this widghte is not rebuild if cart changes
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+    //*Listen to fall use because this widget is not rebuild if cart changes
     //* tell the cart that added new item , not interested change the cart */
 
     ///*** this is not a widget but simply a method or a way of  extracting data
-    ///*and storing it in varaible it awalys trigger the whole  build
+    ///*and storing it in variable it away trigger the whole  build
     ///**method*/
     ///
     ///** Go to product_itm.widget.dart */
@@ -45,7 +47,10 @@ class ProduuctItemWidget extends StatelessWidget {
           leading: Consumer<ProductModel>(
             builder: (ctx, d, child) => IconButton(
               onPressed: () {
-                d.toggleFavorite();
+                d.toggleFavorite(
+                  auth.token!,
+                  auth.userId,
+                );
               },
               icon: d.isFavorite
                   ? const Icon(Icons.favorite)

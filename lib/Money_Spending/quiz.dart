@@ -21,6 +21,7 @@ class Quiz extends StatelessWidget {
             question: questions[questionIndex]['QuestionText'] as String),
         ...(questions[questionIndex]["QuestionText"]
                 as List<Map<String, Object>>)
+            //as List
             .map((answer) {
           return AnswerPage(
             selectedHandeler: answerQuestion,

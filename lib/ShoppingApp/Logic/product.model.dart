@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ProductModel with ChangeNotifier {
@@ -25,19 +25,25 @@ class ProductModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleFavorite() async {
+  Future<void> toggleFavorite(String token, String userId) async {
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
 
     notifyListeners();
     final url = Uri.parse(
-        'https://udmeypractice-default-rtdb.firebaseio.com/product/$id.json');
+        //** Different Url Send For Favorite */
+        'https://udmeypractice-default-rtdb.firebaseio.com/userFavorite/$userId/$id.json?auth=$token');
     try {
-      final response = await http.patch(
+      //** we don't want old value there all the time when we switch our status instead override the
+      //** existing status (patch request) */ */
+      // final response = await http.patch(
+      final response = await http.put(
         url,
-        body: json.encode({
-          'isFavorite': isFavorite,
-        }),
+        body: json.encode(
+          //** we onlySend true or false */
+          // 'isFavorite': isFavorite,
+          isFavorite,
+        ),
       );
       if (response.statusCode >= 400) {
         _setFavorite(oldStatus);

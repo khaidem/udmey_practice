@@ -10,6 +10,7 @@ class AuthProvider with ChangeNotifier {
   String? _userId;
 
   //* User is check Auth or not
+  //** if token is expire user not login */
   bool get isAuth {
     return token != null;
   }
@@ -22,6 +23,17 @@ class AuthProvider with ChangeNotifier {
       return _token;
     }
     return null;
+  }
+
+  String get userId {
+    return _userId!;
+  }
+
+  void logOut() {
+    _expiryDate = null;
+    _token = null;
+    _userId != null;
+    notifyListeners();
   }
 
   Future<void> _authenticate(
@@ -49,8 +61,14 @@ class AuthProvider with ChangeNotifier {
       if (responseData['error'] != null) {
         throw HttpException(responseData['error']['message']);
       }
+      //** When there is no error in the response data, so if we are not throwing exception here then
+      //** of course I want to log my userId and I want to set my token and store the token here in memory and so on */ */
+      //** so we set token equal to responseData and the ID token because remember form firebase doc
+      //** we are extracting Id token form the response we are getting here */ */
       _token = responseData['idToken'];
+      //** Form Firebase doc we are extracting UserId  */
       _userId = responseData['localId'];
+      //** Form Firebase doc for expiresIn when we expire time */
       _expiryDate = DateTime.now().add(
         Duration(
           seconds: int.parse(responseData['expiresIn']),

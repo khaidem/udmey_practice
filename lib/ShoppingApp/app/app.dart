@@ -16,16 +16,43 @@ class ShoppingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(
-          create: (context) => ProductsProvider(),
+          create: (context) => AuthProvider(),
         ),
+
+        //** How to token out of auth into here  */
+        ChangeNotifierProxyProvider<AuthProvider, ProductsProvider>(
+          create: (_) => ProductsProvider(
+            '',
+            '',
+            [],
+          ),
+          update: (context, auth, previousProduct) => ProductsProvider(
+            auth.token,
+            auth.userId,
+            previousProduct == null ? [] : previousProduct.items,
+          ),
+        ),
+
+        // ChangeNotifierProvider(
+        //   create: (context) => ProductsProvider(),
+        // ),
         ChangeNotifierProvider(
           create: (context) => CartProvider(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => OrderProvider(),
-        ),
+        ChangeNotifierProxyProvider<AuthProvider, OrderProvider>(
+            create: (_) => OrderProvider(
+                  '',
+                  '',
+                  [],
+                ),
+            update: (context, auth, previousProduct) => OrderProvider(
+                auth.token!,
+                auth.userId,
+                previousProduct == null ? [] : previousProduct.orders)),
+        // ChangeNotifierProvider(
+        //   create: (context) => OrderProvider(),
+        // ),
       ],
       child: Consumer<AuthProvider>(
         builder: (cxt, auth, _) => MaterialApp(
@@ -40,7 +67,7 @@ class ShoppingApp extends StatelessWidget {
 
           //checking for auth or not
           // auth.isAuth ? const ProductScreen() : const AuthScreen(),
-          home: const ProductScreen(),
+          home: auth.isAuth ? const ProductScreen() : const AuthScreen(),
           routes: {
             ProductDetailsScreen.routeName: (context) =>
                 const ProductDetailsScreen(),
