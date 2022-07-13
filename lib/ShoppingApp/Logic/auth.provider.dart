@@ -35,7 +35,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   // Future<void> logOut() async {
-  void logOut() {
+  Future<void> logOut() async {
     _expiryDate = null;
     _token = null;
     _userId != null;
@@ -45,8 +45,8 @@ class AuthProvider with ChangeNotifier {
       _authTime!.cancel();
       _authTime = null;
     }
-    // final prefs = await SharedPreferences.getInstance();
-    // prefs.clear();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
   }
 
   void _autoLogout() {

@@ -53,7 +53,7 @@ class DrawerWidget extends StatelessWidget {
             title: const Text('Log Out'),
             onTap: () {
               print("Logout");
-              // Navigator.of(context).pushReplacementNamed('/');
+              Navigator.of(context).pushReplacementNamed('/');
               // Navigator.of(context).pop();
 
               Provider.of<AuthProvider>(context, listen: false).logOut();
