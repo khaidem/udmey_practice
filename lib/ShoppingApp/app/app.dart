@@ -42,15 +42,17 @@ class ShoppingApp extends StatelessWidget {
           create: (context) => CartProvider(),
         ),
         ChangeNotifierProxyProvider<AuthProvider, OrderProvider>(
-            create: (_) => OrderProvider(
-                  '',
-                  '',
-                  [],
-                ),
-            update: (context, auth, previousProduct) => OrderProvider(
-                auth.token!,
-                auth.userId,
-                previousProduct == null ? [] : previousProduct.orders)),
+          create: (_) => OrderProvider(
+            '',
+            '',
+            [],
+          ),
+          update: (context, auth, previousProduct) => OrderProvider(
+            auth.token!,
+            auth.userId,
+            previousProduct == null ? [] : previousProduct.orders,
+          ),
+        ),
         // ChangeNotifierProvider(
         //   create: (context) => OrderProvider(),
         // ),
@@ -67,12 +69,20 @@ class ShoppingApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
 
           //checking for auth or not
+          //**auth.isAuth
+          // ? const ProductScreen()
+          // : FutureBuilder(
+          //     future: auth.tryAutoLogin(),
+          //     builder: (cxt, authResult) =>
+          //         authResult.connectionState == ConnectionState.waiting
+          //             ? const SplashScreen()
+          //             : const AuthScreen()), */
           // auth.isAuth ? const ProductScreen() : const AuthScreen(),
           home: auth.isAuth
               ? const ProductScreen()
               : FutureBuilder(
                   future: auth.tryAutoLogin(),
-                  builder: (cxt, authResult) =>
+                  builder: (ctx, authResult) =>
                       authResult.connectionState == ConnectionState.waiting
                           ? const SplashScreen()
                           : const AuthScreen()),
