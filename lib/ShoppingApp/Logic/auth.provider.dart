@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:practice_app/ShoppingApp/models/http_exception.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider with ChangeNotifier {
   String? _token;
@@ -29,11 +30,13 @@ class AuthProvider with ChangeNotifier {
     return _userId!;
   }
 
-  void logOut() {
+  Future<void> logOut() async {
     _expiryDate = null;
     _token = null;
     _userId != null;
     notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
   }
 
   Future<void> _authenticate(
@@ -75,6 +78,15 @@ class AuthProvider with ChangeNotifier {
         ),
       );
       notifyListeners();
+      final prefs = await SharedPreferences.getInstance();
+      final userData = json.encode(
+        {
+          'token': _token,
+          'userId': _userId,
+          'expiryDate': _expiryDate!.toIso8601String(),
+        },
+      );
+      prefs.setString('userData', userData);
     } catch (error) {
       rethrow;
     }
@@ -86,6 +98,25 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> login(String email, String password) async {
     return _authenticate(email, password, 'verifyPassword');
+  }
+
+  Future<bool> tryAutoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('userData')) {
+      return false;
+    }
+    final extractedData = json.decode(prefs.getString('userData') as String)
+        as Map<String, Object>;
+    final expiredDate = DateTime.parse(extractedData['expiryDate'] as String);
+
+    if (expiredDate.isBefore(DateTime.now())) {
+      return false;
+    }
+    _token = extractedData['token'] as String;
+    _userId = extractedData['userId'] as String;
+    _expiryDate = expiredDate;
+    notifyListeners();
+    return true;
   }
 
   // Future<void> signup(String email, String password) async {

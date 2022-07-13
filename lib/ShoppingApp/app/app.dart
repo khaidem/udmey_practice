@@ -4,6 +4,7 @@ import 'package:practice_app/ShoppingApp/example/extract_arguments_screen.dart';
 
 import 'package:practice_app/ShoppingApp/screen/auth_screen.dart';
 import 'package:practice_app/ShoppingApp/screen/edit_product.screen.dart';
+import 'package:practice_app/ShoppingApp/screen/splash.screen.dart';
 import 'package:practice_app/ShoppingApp/screen/user_product.screen.dart';
 import 'package:provider/provider.dart';
 
@@ -67,7 +68,14 @@ class ShoppingApp extends StatelessWidget {
 
           //checking for auth or not
           // auth.isAuth ? const ProductScreen() : const AuthScreen(),
-          home: auth.isAuth ? const ProductScreen() : const AuthScreen(),
+          home: auth.isAuth
+              ? const ProductScreen()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (cxt, authResult) =>
+                      authResult.connectionState == ConnectionState.waiting
+                          ? const SplashScreen()
+                          : const AuthScreen()),
           routes: {
             ProductDetailsScreen.routeName: (context) =>
                 const ProductDetailsScreen(),
