@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:practice_app/ShoppingApp/app/app.dart';
+import 'package:practice_app/Mina_Farid_App/app/app.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
-  runApp(const ShoppingApp());
+// Future<void> main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   // await Firebase.initializeApp();
+//   runApp(const ShoppingApp());
+// }
+
+void main() {
+  runApp(MyApp());
 }
 //** Checking for ModalRoute.of(context) */
 // class MyApp extends StatelessWidget {
