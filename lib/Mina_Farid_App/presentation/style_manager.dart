@@ -36,3 +36,10 @@ TextStyle getMediumStyle(
   return _getTextStyle(
       fontSize, FontConstants.fontFamily, FontWeightManager.regular, color);
 }
+
+// Semi Bold
+TextStyle getSemiBoldStyle(
+    {double fontSize = FontSize.s12, required Color color}) {
+  return _getTextStyle(
+      fontSize, FontConstants.fontFamily, FontWeightManager.regular, color);
+}
