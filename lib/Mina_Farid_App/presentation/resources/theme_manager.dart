@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:practice_app/Mina_Farid_App/presentation/color_manager.dart';
-import 'package:practice_app/Mina_Farid_App/presentation/font_manager.dart';
-import 'package:practice_app/Mina_Farid_App/presentation/style_manager.dart';
-import 'package:practice_app/Mina_Farid_App/presentation/value_manager.dart';
+import 'package:practice_app/Mina_Farid_App/presentation/resources/color_manager.dart';
+import 'package:practice_app/Mina_Farid_App/presentation/resources/font_manager.dart';
+import 'package:practice_app/Mina_Farid_App/presentation/resources/style_manager.dart';
+import 'package:practice_app/Mina_Farid_App/presentation/resources/value_manager.dart';
 
 ThemeData getApplicationTheme() {
   return ThemeData(
     //** main colors of the app */
     primaryColor: ColorManager.primary,
-    primaryColorDark: ColorManager.darkPrimary,
     primaryColorLight: ColorManager.primaryOpacity70,
+    primaryColorDark: ColorManager.darkPrimary,
     disabledColor: ColorManager.grey1,
-    colorScheme: ColorScheme.fromSwatch().copyWith(
-      secondary: ColorManager.grey,
-    ),
+    // ripple color
+    splashColor: ColorManager.primaryOpacity70,
 
     // ** Card view Theme
     cardTheme: CardTheme(
@@ -94,5 +93,7 @@ ThemeData getApplicationTheme() {
         ),
       ),
     ),
+    colorScheme:
+        ColorScheme.fromSwatch().copyWith(secondary: ColorManager.grey),
   );
 }
