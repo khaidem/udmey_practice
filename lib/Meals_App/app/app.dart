@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:practice_app/Meals_App/Screen/categories.screen.dart';
 import 'package:practice_app/Meals_App/Screen/category_meal.screen.dart';
+import 'package:practice_app/Meals_App/Screen/meals_details.screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -35,12 +36,25 @@ class MyApp extends StatelessWidget {
           secondary: Colors.amber,
         ),
       ),
-      home: const CategoriesScreen(),
+      // home: const CategoriesScreen(),
+
+      //** we replace home to initailRoute */
+      initialRoute: '/',
       routes: {
+        '/': (context) => const CategoriesScreen(),
         // '/category-meal': (ctx) => const CategoryMealScreen(),
         //** Another style for route */
         CategoryMealScreen.routeName: (ctx) => const CategoryMealScreen(),
         //** This is same the difference is we can find the error in easyWays */
+        MealsDetailsScreen.routeName: (ctx) => const MealsDetailsScreen(),
+      },
+      //** For onGenerateRoute which has some information  */
+      onGenerateRoute: (setting) {
+        return null;
+      },
+      //** If Flutter build to fail all other screen if error is catch some is show */
+      onUnknownRoute: (setting) {
+        return null;
       },
     );
   }
