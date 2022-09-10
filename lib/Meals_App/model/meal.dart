@@ -11,7 +11,7 @@ class Meal {
   final String title;
 
   final List<String> ingredents;
-  // final String ImagesUrl;
+  final String imageUrl;
   final List<String> setps;
   final int duration;
 
@@ -29,7 +29,7 @@ class Meal {
     required this.isVegan,
     required this.isVegetarian,
     required this.ingredents,
-    // required this.ImagesUrl,
+    required this.imageUrl,
     required this.setps,
     required this.duration,
     required this.complexity,
@@ -37,6 +37,5 @@ class Meal {
     required this.id,
     required this.title,
     required this.affordability,
-    required String imageUrl,
   });
 }

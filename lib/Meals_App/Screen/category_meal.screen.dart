@@ -28,7 +28,13 @@ class CategoryMealScreen extends StatelessWidget {
           shrinkWrap: true,
           itemCount: categoriesMeal.length,
           itemBuilder: (ctx, index) {
-            return MealItemWidget(title: categoriesMeal[index].title, imageUrl: categoriesMeal[index], duration: categoriesMeal[index].duration, complexity: categoriesMeal[index].complexity, affordability: categoriesMeal[index].affordability;
+            return MealItemWidget(
+              title: categoriesMeal[index].title,
+              duration: categoriesMeal[index].duration,
+              complexity: categoriesMeal[index].complexity,
+              affordability: categoriesMeal[index].affordability,
+              imageUrl: '',
+            );
           }),
     );
   }

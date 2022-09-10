@@ -5,13 +5,13 @@ class MealItemWidget extends StatelessWidget {
   const MealItemWidget(
       {Key? key,
       required this.title,
-      // required this.imageUrl,
+      required this.imageUrl,
       required this.duration,
       required this.complexity,
       required this.affordability})
       : super(key: key);
   final String title;
-  // final String imageUrl;
+  final String imageUrl;
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
@@ -27,18 +27,18 @@ class MealItemWidget extends StatelessWidget {
       child: Column(
         children: [
           Stack(
-            children: const [
+            children: [
               ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(15),
                   topRight: Radius.circular(15),
                 ),
-                // child: Image.network(
-                //   // imageUrl,
-                //   height: 250,
-                //   width: double.infinity,
-                //   fit: BoxFit.cover,
-                // ),
+                child: Image.network(
+                  imageUrl,
+                  height: 250,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               )
             ],
           )

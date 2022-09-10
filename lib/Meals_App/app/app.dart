@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:practice_app/Meals_App/Screen/categories_screen.dart';
+import 'package:practice_app/Meals_App/Screen/categories.screen.dart';
 import 'package:practice_app/Meals_App/Screen/category_meal.screen.dart';
-
-void main() {
-  runApp(const MyApp());
-}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
