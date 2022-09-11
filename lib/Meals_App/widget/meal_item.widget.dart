@@ -10,7 +10,8 @@ class MealItemWidget extends StatelessWidget {
       required this.duration,
       required this.complexity,
       required this.affordability,
-      required this.id})
+      required this.id,
+      required this.removeItem})
       : super(key: key);
   final String id;
   final String title;
@@ -18,6 +19,7 @@ class MealItemWidget extends StatelessWidget {
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
+  final Function removeItem;
 
   //** Now we need to Translate our enum here into text which we can output for now
   //** we need getter  */ */
@@ -67,7 +69,12 @@ class MealItemWidget extends StatelessWidget {
 
   void selectedMeal(BuildContext context) {
     Navigator.of(context)
-        .pushNamed(MealsDetailsScreen.routeName, arguments: id);
+        .pushNamed(MealsDetailsScreen.routeName, arguments: id)
+        .then((value) {
+      if (value != null) {
+        removeItem(value);
+      }
+    });
   }
 
   @override

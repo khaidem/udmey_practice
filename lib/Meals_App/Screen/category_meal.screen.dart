@@ -1,42 +1,81 @@
 import 'package:flutter/material.dart';
-import 'package:practice_app/Meals_App/json_data.dart';
 import 'package:practice_app/Meals_App/widget/meal_item.widget.dart';
 
-class CategoryMealScreen extends StatelessWidget {
+import '../json_data.dart';
+import '../model/meal.dart';
+
+class CategoryMealScreen extends StatefulWidget {
   const CategoryMealScreen({
     Key? key,
   }) : super(key: key);
   static const routeName = '/CategoryMealScreen';
 
   @override
-  Widget build(BuildContext context) {
-    //** So we extract route argument form categoriesItemScreen  */
-    final routes =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final categoriesTitle = routes['title'];
-    final categoriesId = routes['id'];
+  State<CategoryMealScreen> createState() => _CategoryMealScreenState();
+}
 
-    //** We Iterate form model to find categories Id  */
-    final categoriesMeal = DUMMY_MEALS.where((meal) {
-      return meal.categories.contains(categoriesId);
-    }).toList();
+class _CategoryMealScreenState extends State<CategoryMealScreen> {
+  String? categoriesTitle;
+  List<Meal>? displayedMeals;
+  var _loadedInitData = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+//** didChangeDependencies run couple of time after the initialization of the state
+//** It run whenever the didChangeDependencies of this state change and that also */ */ */
+  @override
+  void didChangeDependencies() {
+    if (!_loadedInitData) {
+      //** So we extract route argument form categoriesItemScreen  */
+      final routes =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      categoriesTitle = routes['title'];
+      final categoriesId = routes['id'];
+
+      //** We Iterate form model to find categories Id  */
+      displayedMeals = dummyMeals.where((e) {
+        return e.categories.contains('c2');
+      }).toList();
+      _loadedInitData = true;
+    }
+
+    super.didChangeDependencies();
+  }
+
+  void _removeMeal(String mealId) {
+    setState(() {
+      displayedMeals!.removeWhere((element) => element.id == mealId);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(categoriesTitle),
+        title: Text(categoriesTitle!),
       ),
-      body: ListView.builder(
-          shrinkWrap: true,
-          itemCount: categoriesMeal.length,
-          itemBuilder: (ctx, index) {
-            return MealItemWidget(
-              title: categoriesMeal[index].title,
-              duration: categoriesMeal[index].duration,
-              complexity: categoriesMeal[index].complexity,
-              affordability: categoriesMeal[index].affordability,
-              imageUrl: categoriesMeal[index].imageUrl,
-              id: categoriesMeal[index].id,
-            );
-          }),
+      body: Column(
+        children: [
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: displayedMeals!.length,
+            itemBuilder: (ctx, index) {
+              return MealItemWidget(
+                title: displayedMeals![index].title,
+                duration: displayedMeals![index].duration,
+                complexity: displayedMeals![index].complexity,
+                affordability: displayedMeals![index].affordability,
+                imageUrl: displayedMeals![index].imageUrl,
+                id: displayedMeals![index].id,
+                removeItem: _removeMeal,
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

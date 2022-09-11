@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:practice_app/Meals_App/model/category.dart';
 import 'package:practice_app/Meals_App/model/meal.dart';
 
-var dummyCategories = [
+const dummyCategories = [
   Category(id: 'C1', title: 'Italian', colors: Colors.purple),
   Category(id: 'C2', title: 'Quick & Easy', colors: Colors.red),
 ];
 
-var DUMMY_MEALS = [
+const dummyMeals = [
   Meal(
     id: 'm1',
     categories: [
@@ -17,10 +17,10 @@ var DUMMY_MEALS = [
     title: 'Spaghetti with Tomato Sauce',
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
-    duration: 20,
     imageUrl:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg/800px-Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg',
-    ingredents: [
+    duration: 20,
+    ingredients: [
       '4 Tomatoes',
       '1 Tablespoon of Olive Oil',
       '1 Onion',
@@ -28,7 +28,7 @@ var DUMMY_MEALS = [
       'Spices',
       'Cheese (optional)'
     ],
-    setps: [
+    steps: [
       'Cut the tomatoes and the onion into small pieces.',
       'Boil some water - add salt to it once it boils.',
       'Put the spaghetti into the boiling water - they should be done in about 10 to 12 minutes.',
@@ -43,31 +43,35 @@ var DUMMY_MEALS = [
     isLactoseFree: true,
   ),
   Meal(
-    id: 'm2',
+    id: 'm3',
     categories: [
       'c2',
+      'c3',
     ],
-    title: 'Toast Hawaii',
-    affordability: Affordability.affordable,
+    title: 'Classic Hamburger',
+    affordability: Affordability.pricey,
     complexity: Complexity.simple,
-    duration: 20,
     imageUrl:
-        'https://cdn.pixabay.com/photo/2018/07/11/21/51/toast-3532016_1280.jpg',
-    ingredents: [
-      '1 Slice White Bread',
-      '1 Slice Ham',
-      '1 Slice Pineapple',
-      '1-2 Slices of Cheese',
-      'Butter'
+        'https://cdn.pixabay.com/photo/2014/10/23/18/05/burger-500054_1280.jpg',
+    duration: 45,
+    ingredients: [
+      '300g Cattle Hack',
+      '1 Tomato',
+      '1 Cucumber',
+      '1 Onion',
+      'Ketchup',
+      '2 Burger Buns'
     ],
-    setps: [
-      'Butter one side of the white bread',
-      'Layer ham, the pineapple and cheese on the white bread',
-      'Bake the toast for round about 10 minutes in the oven at 200°C'
+    steps: [
+      'Form 2 patties',
+      'Fry the patties for c. 4 minutes on each side',
+      'Quickly fry the buns for c. 1 minute on each side',
+      'Bruch buns with ketchup',
+      'Serve burger with tomato, cucumber and onion'
     ],
     isGlutenFree: false,
     isVegan: false,
-    isVegetarian: true,
-    isLactoseFree: false,
+    isVegetarian: false,
+    isLactoseFree: true,
   ),
 ];

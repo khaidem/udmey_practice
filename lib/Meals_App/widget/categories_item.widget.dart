@@ -10,6 +10,8 @@ class CategoriesItem extends StatelessWidget {
   final String id;
 
   void selectedCategory(BuildContext ctx) {
+    //** When we push, we create the route on the fly with the MaterialPageRoute Class */
+    //** As For pushName We have to setup route in MyApp/main.dart */
     Navigator.of(ctx).pushNamed(
       CategoryMealScreen.routeName,
       arguments: {
