@@ -2,14 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:practice_app/Meals_App/router/Screen/main_drawer.screen.router.dart';
 
 class FilterScreen extends StatefulWidget {
-  const FilterScreen({Key? key}) : super(key: key);
+  const FilterScreen(
+      {Key? key, required this.saveFilter, required this.currentFliter})
+      : super(key: key);
   static const routeName = '/filters';
+  final Function()? saveFilter;
+  final Map<String, bool> currentFliter;
 
   @override
   State<FilterScreen> createState() => _FilterScreenState();
 }
 
 class _FilterScreenState extends State<FilterScreen> {
+  @override
+  void initState() {
+    _glutenFree = widget.currentFliter['gluten']!;
+    _lactoseFree = widget.currentFliter['lactose']!;
+
+    super.initState();
+  }
+
   Widget buildSwitchTile(String title, String description, bool currentValue,
       Function(bool)? updateValue) {
     return SwitchListTile(
@@ -28,6 +40,19 @@ class _FilterScreenState extends State<FilterScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Filer'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              //** ForWard the data   where user filter selected */
+              final selecteFilter = {
+                'gluten': _glutenFree,
+                'lactose': _lactoseFree,
+              };
+              widget.saveFilter!();
+            },
+            icon: const Icon(Icons.save),
+          )
+        ],
       ),
       drawer: const MainDrawer(),
       body: Column(
