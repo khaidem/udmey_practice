@@ -1,6 +1,5 @@
-
- <!-- For App color Change in whiteSpace -->
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name = "primary">#ED9728</color>
+    <!-- For adding colors -->
+    <color name="primary">#ED9728</color>
 </resources>
