@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:practice_app/Mina_Farid_App/presentation/onbaording/onboarding_view_model.dart';
 import 'package:practice_app/Mina_Farid_App/presentation/resources/routes_manager.dart';
 
+import '../../domain/model.dart';
 import '../resources/assets_manager.dart';
 import '../resources/color_manager.dart';
 import '../resources/string_manager.dart';
@@ -16,24 +18,31 @@ class OnBoardingView extends StatefulWidget {
 }
 
 class _OnBoardingViewState extends State<OnBoardingView> {
-  late final List<SliderObject> _list = _getSliderData();
-  int _currentIndex = 0;
   final PageController _pageController = PageController(initialPage: 0);
+  final OnBoardingViewModel _viewModel = OnBoardingViewModel();
+  _blind() {
+    _viewModel.start();
+  }
 
-  ///Slider page Route
-  ///==================
-  List<SliderObject> _getSliderData() => [
-        SliderObject(AppStrings.onBoardingSubTitle1,
-            AppStrings.onBoardingSubTitle1, ImageAssets.onboardingLogo1),
-        SliderObject(AppStrings.onBoardingSubTitle2,
-            AppStrings.onBoardingSubTitle2, ImageAssets.onboardingLogo2),
-        SliderObject(AppStrings.onBoardingSubTitle3,
-            AppStrings.onBoardingSubTitle3, ImageAssets.onboardingLogo3),
-        SliderObject(AppStrings.onBoardingSubTitle4,
-            AppStrings.onBoardingSubTitle4, ImageAssets.onboardingLogo4),
-      ];
+  @override
+  void initState() {
+    _blind();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder<SliderViewObject>(
+        stream: _viewModel.outputSliderViewObject,
+        builder: (ctx, snapShot) {
+          return _getContentWidget(snapShot.data);
+        });
+  }
+
+  Widget _getContentWidget(SliderViewObject? sliderViewObject) {
+    if (sliderViewObject == null) {
+      return Container();
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorManager.white,
@@ -47,15 +56,15 @@ class _OnBoardingViewState extends State<OnBoardingView> {
       backgroundColor: ColorManager.white,
       body: PageView.builder(
         controller: _pageController,
-        itemCount: _list.length,
+        itemCount: sliderViewObject.numOfSlides,
         onPageChanged: (index) {
           setState(() {
-            _currentIndex = index;
+            _viewModel.onPageChanged(index);
           });
         },
         itemBuilder: (context, index) {
           return OnBoardingPage(
-            _list[index],
+            sliderViewObject.sliderObject,
           );
         },
       ),
@@ -77,14 +86,14 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                   ),
                 )),
             // add layout for indicator and arrows
-            _getBottomSheetWidget()
+            _getBottomSheetWidget(sliderViewObject)
           ],
         ),
       ),
     );
   }
 
-  Widget _getBottomSheetWidget() {
+  Widget _getBottomSheetWidget(SliderViewObject sliderViewObject) {
     return Container(
       color: ColorManager.primary,
       child: Row(
@@ -100,7 +109,10 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                 child: SvgPicture.asset(ImageAssets.leftArrowIc),
               ),
               onTap: () {
-                // go to next slide
+                _pageController.animateToPage(_viewModel.goPrevious(),
+                    duration: const Duration(
+                        milliseconds: Duration.microsecondsPerDay),
+                    curve: Curves.bounceInOut);
               },
             ),
           ),
@@ -108,10 +120,10 @@ class _OnBoardingViewState extends State<OnBoardingView> {
           // circles indicator
           Row(
             children: [
-              for (int i = 0; i < _list.length; i++)
+              for (int i = 0; i < sliderViewObject.numOfSlides; i++)
                 Padding(
                   padding: const EdgeInsets.all(AppPadding.p8),
-                  child: _getProperCircle(i),
+                  child: _getProperCircle(i, sliderViewObject.numOfSlides),
                 ),
             ],
           ),
@@ -126,7 +138,10 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                 child: SvgPicture.asset(ImageAssets.rightarrowIc),
               ),
               onTap: () {
-                // go to next slide
+                _pageController.animateToPage(_viewModel.gotNext(),
+                    duration: const Duration(
+                        milliseconds: Duration.microsecondsPerDay),
+                    curve: Curves.bounceInOut);
               },
             ),
           )
@@ -135,12 +150,18 @@ class _OnBoardingViewState extends State<OnBoardingView> {
     );
   }
 
-  Widget _getProperCircle(int index) {
+  Widget _getProperCircle(int index, int _currentIndex) {
     if (index == _currentIndex) {
       return SvgPicture.asset(ImageAssets.hollowCircleIc); // selected slider
     } else {
       return SvgPicture.asset(ImageAssets.solidCircleIc); // unselected slider
     }
+  }
+
+  @override
+  void dispose() {
+    _viewModel.dispose();
+    super.dispose();
   }
 }
 
@@ -177,11 +198,4 @@ class OnBoardingPage extends StatelessWidget {
       ],
     );
   }
-}
-
-class SliderObject {
-  String? title;
-  String? subTitle;
-  String? image;
-  SliderObject(this.title, this.subTitle, this.image);
 }

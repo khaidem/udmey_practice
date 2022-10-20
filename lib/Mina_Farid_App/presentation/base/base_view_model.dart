@@ -4,8 +4,8 @@ abstract class BaseViewModel extends BaseViewModelInput
 }
 
 abstract class BaseViewModelInput {
-  void start();
-  void dispose();
+  void start(); // will be called while init. of view model
+  void dispose(); // will be called when viewModel dies
 }
 
 abstract class BaseViewModelOutput {}
