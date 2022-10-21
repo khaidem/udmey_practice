@@ -10,6 +10,7 @@ class OnBoardingViewModel extends BaseViewModel
     with OnBoardingViewModelInputs, OnBoardingViewModelOuput {
   final StreamController _streamController =
       StreamController<SliderViewObject>();
+
   late final List<SliderObject> _list;
   int _currentIndex = 0;
 //** stream => It is a pipe , you put a value on the one end and if there
