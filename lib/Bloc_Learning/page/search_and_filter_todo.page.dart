@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:practice_app/Bloc_Learning/cubit/cubit.dart';
+import 'package:practice_app/Bloc_Learning/Bloc/todo_filter/todo_filter_bloc.dart';
+import 'package:practice_app/Bloc_Learning/Bloc/todo_search/todo_search_bloc.dart';
 import 'package:practice_app/Bloc_Learning/model/todo.model.dart';
+import 'package:practice_app/Bloc_Learning/utils/debounce.dart';
 
 class SearchAndFilterTodo extends StatelessWidget {
-  const SearchAndFilterTodo({Key? key}) : super(key: key);
+  SearchAndFilterTodo({Key? key}) : super(key: key);
+
+  final debounce = Debounce(milliseconds: 1000);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,14 @@ class SearchAndFilterTodo extends StatelessWidget {
               prefixIcon: Icon(Icons.search)),
           onChanged: (String? newSearch) {
             if (newSearch != null) {
-              context.read<TodoSearchFilterCubit>().setSearch(newSearch);
+              debounce.run(() {
+//**For Bloc */
+                context
+                    .read<TodoSearchBloc>()
+                    .add(SetSearchTermEvent(newSerchTerm: newSearch));
+                //**For Cubit */
+                // context.read<TodoSearchFilterCubit>().setSearch(newSearch);
+              });
             }
           },
         ),
@@ -40,18 +51,31 @@ class SearchAndFilterTodo extends StatelessWidget {
   Widget filterButton(BuildContext context, SearchFilter filter) {
     return TextButton(
       onPressed: () {
-        context.read<TodoFilterCubit>().changeFilter(filter);
+        //**for Bloc */
+        context
+            .read<TodoFilterBloc>()
+            .add(ChangeFilterEvent(newFilter: filter));
+        //**For Cubit */
+        // context.read<TodoFilterCubit>().changeFilter(filter);
       },
-      child: Text(filter == SearchFilter.all
-          ? 'All'
-          : filter == SearchFilter.active
-              ? 'Active'
-              : 'completed'),
+      child: Text(
+        filter == SearchFilter.all
+            ? 'All'
+            : filter == SearchFilter.active
+                ? 'Active'
+                : 'completed',
+        style: TextStyle(color: textColor(context, filter)),
+      ),
     );
   }
 }
 
+//Chnage color according to button click
+
 Color textColor(BuildContext context, SearchFilter filter) {
-  final currentFilter = context.watch<TodoFilterCubit>().state.filter;
+  //**For Bloc */
+  final currentFilter = context.watch<TodoFilterBloc>().state.filter;
+  //** For Cubit */
+  // final currentFilter = context.watch<TodoFilterCubit>().state.filter;
   return currentFilter == filter ? Colors.blue : Colors.grey;
 }

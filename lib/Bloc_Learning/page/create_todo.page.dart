@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:practice_app/Bloc_Learning/cubit/todo_list/todo_list_cubit.dart';
+import 'package:practice_app/Bloc_Learning/Bloc/todo_list/todo_list_bloc.dart';
 
 class CreateTodoPage extends StatefulWidget {
   const CreateTodoPage({Key? key}) : super(key: key);
@@ -25,7 +25,10 @@ class _CreateTodoPageState extends State<CreateTodoPage> {
       decoration: const InputDecoration(labelText: 'What to do ?'),
       onSubmitted: (String? todoDesc) {
         if (todoDesc != null && todoDesc.trim().isNotEmpty) {
-          context.read<TodoListCubit>().addTodo(todoDesc);
+          //*For Bloc
+          context.read<TodoListBloc>().add(AddTodoEvent(todoDesc: todoDesc));
+          //** For Cubit */
+          // context.read<TodoListCubit>().addTodo(todoDesc);
           newTodoController.clear();
         }
       },

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:practice_app/Bloc_Learning/cubit/active_todo/active_todo_cubit.dart';
+import 'package:practice_app/Bloc_Learning/Bloc/active_todo/active_todo_bloc.dart';
+import 'package:practice_app/Bloc_Learning/Bloc/todo_list/todo_list_bloc.dart';
+import 'package:practice_app/Bloc_Learning/model/todo.model.dart';
 import 'package:practice_app/Bloc_Learning/page/create_todo.page.dart';
 import 'package:practice_app/Bloc_Learning/page/search_and_filter_todo.page.dart';
 import 'package:practice_app/Bloc_Learning/page/show_todo.page.dart';
@@ -18,14 +20,14 @@ class TodoPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-            children: const [
-              TodoHeader(),
-              CreateTodoPage(),
-              SizedBox(
+            children: [
+              const TodoHeader(),
+              const CreateTodoPage(),
+              const SizedBox(
                 height: 20,
               ),
               SearchAndFilterTodo(),
-              ShowTodoPage()
+              const ShowTodoPage()
             ],
           ),
         ),
@@ -47,16 +49,44 @@ class TodoHeader extends StatelessWidget {
           style: TextStyle(fontSize: 40),
         ),
 
+        //** For Showing Bloc to ui */
+        BlocListener<TodoListBloc, TodoListStateBloc>(
+          listener: (context, state) {
+            final int activeTodoCount = state.todos
+                .where((Todo todos) => !todos.completed)
+                .toList()
+                .length;
+            context.read<ActiveTodoBloc>().add(CalculateActiveTodoCountEvent(
+                activeTodoCount: activeTodoCount));
+          },
+          child: BlocBuilder<ActiveTodoBloc, ActiveTodoCountState>(
+            builder: (context, state) {
+              return Text('${state.activeTodoCount} item left');
+            },
+          ),
+        )
         //How many item is rebuild again changes. we can retrive the value form that
         //Cubit when ever the value changes here
         // 2 method ==> BlocBuilder or extension method
-
+        ///**For Listning data change in Cubit using BlocListner */
         ////** First Method */
-        BlocBuilder<ActiveTodoCubit, ActiveTodoState>(
-          builder: (context, state) {
-            return Text('${state.activeTodoCount} item left');
-          },
-        )
+        ///** For Cubit show in Ui */
+        // BlocListener<TodoListCubit, TodoListState>(
+        //   listener: (context, state) {
+        //     final int activeCount = state.todos
+        //         .where((Todo todo) => !todo.completed)
+        //         .toList()
+        //         .length;
+        //     context
+        //         .read<ActiveTodoCubit>()
+        //         .calculateActiveTodoCubit(activeCount);
+        //   },
+        //   child: BlocBuilder<ActiveTodoCubit, ActiveTodoState>(
+        //     builder: (context, state) {
+        //       return Text('${state.activeTodoCount} item left');
+        //     },
+        //   ),
+        // )
 
         //** Second Method */
         // Text(

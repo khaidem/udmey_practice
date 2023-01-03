@@ -1,22 +1,22 @@
-part of 'fliter_todo_cubit.dart';
+part of 'flitered_todo_bloc.dart';
 
-class FliterTodoState extends Equatable {
+class FilteredTodoState extends Equatable {
   final List<Todo> filterTodos;
-  const FliterTodoState({
+  const FilteredTodoState({
     required this.filterTodos,
   });
 
-  factory FliterTodoState.initial() {
-    return const FliterTodoState(filterTodos: []);
+  factory FilteredTodoState.initial() {
+    return const FilteredTodoState(filterTodos: []);
   }
 
   @override
   List<Object> get props => [filterTodos];
 
-  FliterTodoState copyWith({
+  FilteredTodoState copyWith({
     List<Todo>? filterTodos,
   }) {
-    return FliterTodoState(
+    return FilteredTodoState(
       filterTodos: filterTodos ?? this.filterTodos,
     );
   }

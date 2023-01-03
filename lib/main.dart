@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:practice_app/ShoppingApp/app/app.dart';
+
+import 'Bloc_Learning/app/app.dart';
 
 // Future<void> main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -24,5 +25,6 @@ import 'package:practice_app/ShoppingApp/app/app.dart';
 // }
 
 void main() {
-  runApp(const HomePage());
+  //** Form Bloc LearningCourse */
+  runApp(const MyApp());
 }
