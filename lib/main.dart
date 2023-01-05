@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'Bloc_Learning/app/app.dart';
+import 'package:practice_app/Weather_APP/app/my_weatther.dart';
 
 // Future<void> main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +23,11 @@ import 'Bloc_Learning/app/app.dart';
 //   }
 // }
 
+// void main() {
+//   //** Form Bloc LearningCourse */
+//   runApp(const MyApp());
+// }
+
 void main() {
-  //** Form Bloc LearningCourse */
-  runApp(const MyApp());
+  runApp(const MyWeather());
 }
