@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:practice_app/Bloc_Learning/Bloc/active_todo/active_todo_bloc.dart';
-import 'package:practice_app/Bloc_Learning/Bloc/todo_list/todo_list_bloc.dart';
-import 'package:practice_app/Bloc_Learning/model/todo.model.dart';
-import 'package:practice_app/Bloc_Learning/page/create_todo.page.dart';
-import 'package:practice_app/Bloc_Learning/page/search_and_filter_todo.page.dart';
-import 'package:practice_app/Bloc_Learning/page/show_todo.page.dart';
+import 'package:practice_app/Todo_APP/page/show_todo.page.dart';
+
+import '../Bloc/bloc.dart';
+import '../model/todo.model.dart';
+import 'create_todo.page.dart';
+import 'search_and_filter_todo.page.dart';
 
 class TodoPage extends StatelessWidget {
   const TodoPage({Key? key}) : super(key: key);
