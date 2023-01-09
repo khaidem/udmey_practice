@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_app/Weather_APP/Service/weather_api.service.dart';
+import 'package:practice_app/Weather_APP/logic_bloc/temp_setting/temp_settings_bloc.dart';
+import 'package:practice_app/Weather_APP/logic_bloc/weather/weather_bloc.dart';
 
 import 'package:practice_app/Weather_APP/page/setting_page.dart';
 import 'package:practice_app/Weather_APP/page/weather_search.dart';
@@ -45,18 +47,21 @@ class _WeatherHomeState extends State<WeatherHome> {
                 ),
               );
               if (_city != null) {
-                context.read<WeatherCubit>().fetchWeather(_city!);
+                context
+                    .read<WeatherBloc>()
+                    .add(FetchWeatherEvent(city: _city!));
               }
             },
             icon: const Icon(Icons.search),
           ),
           IconButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const SettingPage();
-                }));
-              },
-              icon: const Icon(Icons.settings))
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const SettingPage();
+              }));
+            },
+            icon: const Icon(Icons.settings),
+          )
         ],
       ),
       body: _showWeather(),
@@ -65,7 +70,7 @@ class _WeatherHomeState extends State<WeatherHome> {
 
 //We modified temp According to tempUnit
   String showTemperature(double temp) {
-    final tempUnit = context.watch<TempSettingsCubit>().state.tempUnit;
+    final tempUnit = context.watch<TempSettingsBloc>().state.tempUnit;
     if (tempUnit == TempUnit.fahrenheit) {
       return ((temp * 9 / 5) + 32).toStringAsFixed(2) + 'F';
     }
@@ -74,9 +79,9 @@ class _WeatherHomeState extends State<WeatherHome> {
 
   Widget _showWeather() {
     //** if error occur in these show dilog occure otherWise Widget will display*/
-    return BlocConsumer<WeatherCubit, WeatherState>(
+    return BlocConsumer<WeatherBloc, WeatherStateData>(
       listener: (context, state) {
-        if (state.status == WeatherStatus.error) {
+        if (state.status == WeatherStatusData.error) {
           showDialog(
             context: context,
             builder: (context) {

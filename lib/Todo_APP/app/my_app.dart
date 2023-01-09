@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:practice_app/Bloc_Learning/Bloc/active_todo/active_todo_bloc.dart';
-import 'package:practice_app/Bloc_Learning/Bloc/filtered_todo/flitered_todo_bloc.dart';
-import 'package:practice_app/Bloc_Learning/Bloc/todo_filter/todo_filter_bloc.dart';
-import 'package:practice_app/Bloc_Learning/Bloc/todo_list/todo_list_bloc.dart';
-import 'package:practice_app/Bloc_Learning/Bloc/todo_search/todo_search_bloc.dart';
-import 'package:practice_app/Bloc_Learning/cubit/active_todo/active_todo_cubit.dart';
-import 'package:practice_app/Bloc_Learning/cubit/filter_todo/fliter_todo_cubit.dart';
-import 'package:practice_app/Bloc_Learning/cubit/todo_filter/todo_filter_cubit.dart';
-import 'package:practice_app/Bloc_Learning/cubit/todo_list/todo_list_cubit.dart';
-import 'package:practice_app/Bloc_Learning/cubit/todo_search/todo_search_filter_cubit.dart';
-import 'package:practice_app/Bloc_Learning/page/todo.page.dart';
+
+import '../Bloc/bloc.dart';
+import '../cubit/cubit.dart';
+import '../page/todo.page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

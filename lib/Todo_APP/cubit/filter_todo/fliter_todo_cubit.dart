@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:practice_app/Bloc_Learning/model/todo.model.dart';
+
+import '../../model/todo.model.dart';
 
 part 'fliter_todo_state.dart';
 

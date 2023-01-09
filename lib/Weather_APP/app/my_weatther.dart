@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_app/Weather_APP/Service/weather_api.service.dart';
 import 'package:practice_app/Weather_APP/logic_bloc/Theme_Data/theme_data_bloc.dart';
 import 'package:practice_app/Weather_APP/logic_bloc/temp_setting/temp_settings_bloc.dart';
-import 'package:practice_app/Weather_APP/logic_bloc/theme/theme_bloc.dart';
 import 'package:practice_app/Weather_APP/logic_bloc/weather/weather_bloc.dart';
 
 import 'package:practice_app/Weather_APP/page/weather_home.dart';
@@ -29,9 +28,12 @@ class MyWeather extends StatelessWidget {
               ),
               BlocProvider<TempSettingsBloc>(
                   create: (context) => TempSettingsBloc()),
-              BlocProvider<ThemeDataBloc>(
-                  create: (context) =>
-                      ThemeDataBloc(weatherBloc: context.read<WeatherBloc>())),
+              //** Bloc Listner */
+              BlocProvider<ThemeDataBloc>(create: (context) => ThemeDataBloc()),
+              //**For StreamSubcription */
+              // BlocProvider<ThemeDataBloc>(
+              //     create: (context) =>
+              //         ThemeDataBloc(weatherBloc: context.read<WeatherBloc>())),
 
               //**For Cubit */
               // BlocProvider<WeatherCubit>(
@@ -45,15 +47,20 @@ class MyWeather extends StatelessWidget {
               //     create: (context) =>
               //         ThemeCubit(weatherCubit: context.read<WeatherCubit>()))
             ],
-            child: BlocBuilder<ThemeDataBloc, ThemeDataState>(
-                builder: (context, state) {
-              return MaterialApp(
-                theme: context.watch<ThemeDataBloc>().state.appThemeData ==
-                        AppThemeData.dark
-                    ? ThemeData.light()
-                    : ThemeData.dark(),
-                home: const WeatherHome(),
-              );
-            })));
+            child: BlocListener<WeatherBloc, WeatherStateData>(
+              listener: (context, state) {
+                context.read<ThemeDataBloc>().setTheme(state.weather.theTemp);
+              },
+              child: BlocBuilder<ThemeDataBloc, ThemeDataState>(
+                  builder: (context, state) {
+                return MaterialApp(
+                  theme: context.watch<ThemeDataBloc>().state.appThemeData ==
+                          AppThemeData.dark
+                      ? ThemeData.light()
+                      : ThemeData.dark(),
+                  home: const WeatherHome(),
+                );
+              }),
+            )));
   }
 }

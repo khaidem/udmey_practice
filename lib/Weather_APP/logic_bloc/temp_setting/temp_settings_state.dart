@@ -10,7 +10,7 @@ class TempSettingsState extends Equatable {
   const TempSettingsState({this.tempUnit = TempUnit.celsius});
   final TempUnit tempUnit;
   factory TempSettingsState.initial() {
-    return TempSettingsState();
+    return const TempSettingsState();
   }
 
   @override

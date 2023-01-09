@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:practice_app/Bloc_Learning/Bloc/filtered_todo/flitered_todo_bloc.dart';
-import 'package:practice_app/Bloc_Learning/Bloc/todo_filter/todo_filter_bloc.dart';
-import 'package:practice_app/Bloc_Learning/Bloc/todo_list/todo_list_bloc.dart';
-import 'package:practice_app/Bloc_Learning/Bloc/todo_search/todo_search_bloc.dart';
-import 'package:practice_app/Bloc_Learning/model/todo.model.dart';
+
+import '../Bloc/bloc.dart';
+import '../model/todo.model.dart';
 
 class ShowTodoPage extends StatelessWidget {
   const ShowTodoPage({Key? key}) : super(key: key);
